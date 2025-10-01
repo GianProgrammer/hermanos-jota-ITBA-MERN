@@ -10,13 +10,13 @@ function NavBar() {
       <nav>
         <ul>
           <li>
-            <Link to="/">Inicio</Link>
+            <Link to="/" className="botonesHeader">Inicio</Link>
           </li>
           <li>
-            <Link to="/productos">Productos</Link>
+            <Link to="/productos" className="botonesHeader">Productos</Link>
           </li>
           <li>
-            <Link to="/contacto">Contacto</Link>
+            <Link to="/contacto" className="botonesHeader">Contacto</Link>
           </li>
         </ul>
       </nav>
@@ -25,4 +25,5 @@ function NavBar() {
 }
 
 export default NavBar;
+
 

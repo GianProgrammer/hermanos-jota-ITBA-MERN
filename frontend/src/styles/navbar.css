@@ -1,14 +1,21 @@
-/* ==============================
-   HEADER
-============================== */
+/* HEADER */
+/* Para que el navbar ocupe todo */
 header {
+  width: 100%;
   background: var(--bg-soft, #F5E6D3);
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 12px 24px;
   border-bottom: 1px solid var(--line, #E7D8C6);
-  flex-wrap: wrap; /* que se acomode en mobile */
+  flex-wrap: wrap;
+  box-sizing: border-box; /* importante para respetar el padding */
+}
+
+/* Reset del body para eliminar margen blanco */
+body {
+  margin: 0;
+  padding: 0;
 }
 
 /* Logo */
@@ -26,13 +33,14 @@ header {
 nav {
   display: flex;
   align-items: center;
+  margin-right: 1rem;
 }
 
 nav ul {
   list-style: none;
   margin: 0;
   padding: 0;
-  gap: 1.2rem;
+  gap: 1rem;
   display: flex;
   align-items: center;
 }
@@ -40,25 +48,27 @@ nav ul {
 /* Botones de menú */
 .botonesHeader {
   font-family: "Playfair Display", serif;
-  font-size: 1rem;
-  padding: 0.4rem 0.8rem;
-  border-radius: 0.6rem;
+  font-size: 1.5rem;      /* más grande */
+  font-weight: 500;       /* menos negrita */
+  padding: 0.2rem;        /* menos padding */
+  border-radius: 1rem;    /* bordes suaves */
   cursor: pointer;
   color: var(--brand, #A0522D);
-  font-weight: 600;
   text-decoration: none;
-  transition: all 0.3s ease;
+  transition: all 0.5s;
+}
+
+a.botonesHeader:visited {
+  color: #A0522D;
 }
 
 .botonesHeader:hover {
-  background-color: var(--brand, #A0522D);
+  background-color: #A0522D;
   color: #fff;
-  border: 1px solid var(--brand, #A0522D);
+  border: 1px solid #A0522D;
 }
 
-/* ==============================
-   Responsive Header
-============================== */
+/* Responsive */
 @media (max-width: 768px) {
   header {
     flex-direction: column;
@@ -82,3 +92,4 @@ nav ul {
     max-width: 240px;
   }
 }
+
