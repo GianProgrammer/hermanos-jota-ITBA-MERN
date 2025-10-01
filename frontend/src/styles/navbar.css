@@ -1,4 +1,84 @@
-h1 {
-    font-style: oblique;
-    background-color: aqua;
+/* ==============================
+   HEADER
+============================== */
+header {
+  background: var(--bg-soft, #F5E6D3);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 24px;
+  border-bottom: 1px solid var(--line, #E7D8C6);
+  flex-wrap: wrap; /* que se acomode en mobile */
+}
+
+/* Logo */
+.logo {
+  width: 90px;
+  height: auto;
+  display: block;
+  transition: transform 0.3s ease;
+}
+.logo:hover {
+  transform: scale(1.05);
+}
+
+/* NAV */
+nav {
+  display: flex;
+  align-items: center;
+}
+
+nav ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  gap: 1.2rem;
+  display: flex;
+  align-items: center;
+}
+
+/* Botones de menú */
+.botonesHeader {
+  font-family: "Playfair Display", serif;
+  font-size: 1rem;
+  padding: 0.4rem 0.8rem;
+  border-radius: 0.6rem;
+  cursor: pointer;
+  color: var(--brand, #A0522D);
+  font-weight: 600;
+  text-decoration: none;
+  transition: all 0.3s ease;
+}
+
+.botonesHeader:hover {
+  background-color: var(--brand, #A0522D);
+  color: #fff;
+  border: 1px solid var(--brand, #A0522D);
+}
+
+/* ==============================
+   Responsive Header
+============================== */
+@media (max-width: 768px) {
+  header {
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+  }
+
+  nav {
+    margin-top: 12px;
+    width: 100%;
+  }
+
+  nav ul {
+    flex-direction: column;
+    gap: 0.6rem;
+  }
+
+  .botonesHeader {
+    display: inline-block;
+    width: 100%;
+    max-width: 240px;
+  }
 }
