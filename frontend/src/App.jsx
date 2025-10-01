@@ -4,7 +4,7 @@ import Footer from "./components/Footer";
 import Home from "./Pages/home";
 import Productos from "./Pages/productos";
 import Contacto from "./Pages/contactos";
-import DetalleProducto from "./Pages/producto";
+
 
 function App() {
   return (
@@ -13,7 +13,6 @@ function App() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/productos" element={<Productos />} />
-        <Route path="/producto/:id" element={<DetalleProducto />} />
         <Route path="/contacto" element={<Contacto />} />
       </Routes>
       <Footer />
@@ -22,4 +21,5 @@ function App() {
 }
 
 export default App;
+
 
