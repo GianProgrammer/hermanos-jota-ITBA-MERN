@@ -53,3 +53,38 @@
 .btn-volver:hover {
   background-color: #8b5c25;
 }
+/* Botón Añadir al Carrito */
+#detalle-producto .btn {
+  background-color: #A0522D;
+  color: #fff;
+  font-size: 0.95rem;
+  font-weight: 500;
+  padding: 10px 16px;
+  border: none;
+  border-radius: 25px; /* redondeado más moderno */
+  cursor: pointer;
+  transition: all 0.3s ease;
+  align-self: start; /* que no se estire al 100% */
+}
+
+#detalle-producto .btn:hover {
+  background-color: #8b5c25;
+  transform: scale(1.03);
+}
+
+/* Botón Volver a Productos */
+#detalle-producto .btn-volver {
+  background-color: #f0e5da; /* mucho más claro */
+  color: #A0522D;
+  font-size: 0.9rem;
+  padding: 8px 14px;
+  border-radius: 20px;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  width: fit-content; /* ajusta al contenido */
+}
+
+#detalle-producto .btn-volver:hover {
+  background-color: #e6d5c2;
+  color: #7a3c1c;
+}
