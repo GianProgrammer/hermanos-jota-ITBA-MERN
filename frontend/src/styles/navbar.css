@@ -92,4 +92,21 @@ a.botonesHeader:visited {
     max-width: 240px;
   }
 }
+/* Badge del carrito */
+nav ul li:last-child .botonesHeader {
+  position: relative;
+}
+
+nav ul li:last-child .botonesHeader::after {
+  content: attr(data-count);
+  position: absolute;
+  top: -8px;
+  right: -12px;
+  background: #A0522D;
+  color: #fff;
+  font-size: 0.8rem;
+  font-weight: bold;
+  padding: 2px 6px;
+  border-radius: 50%;
+}
 

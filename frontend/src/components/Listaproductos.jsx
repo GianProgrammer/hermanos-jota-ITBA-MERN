@@ -1,23 +1,44 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 import "../styles/home.css";
 
-function ListaProductos({ productos, titulo, limite }) {
+function ListaProductos({ titulo, limite }) {
+  const [productos, setProductos] = useState([]);
   const [busqueda, setBusqueda] = useState("");
-  const [visible, setVisible] = useState(limite || 6); // si hay limite -> home, si no -> paginado de 6 en productos
+  const [visible, setVisible] = useState(limite || 6);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
-  // filtro
+  useEffect(() => {
+    fetch("http://localhost:5000/api/productos") // puerto del backend
+      .then((res) => {
+        if (!res.ok) throw new Error("Error al cargar los productos");
+        return res.json();
+      })
+      .then((data) => {
+        setProductos(data);
+        setLoading(false);
+      })
+      .catch((err) => {
+        setError(err.message);
+        setLoading(false);
+      });
+  }, []);
+
+  if (loading) return <p style={{ textAlign: "center" }}>Cargando...</p>;
+  if (error) return <p style={{ textAlign: "center" }}>Error: {error}</p>;
+
   const productosFiltrados = productos.filter((p) =>
     p.nombre.toLowerCase().includes(busqueda.toLowerCase())
   );
 
-  // lista a mostrar
   const productosAMostrar = productosFiltrados.slice(0, visible);
 
   return (
     <section className="prod-dest">
       {titulo && <h2>{titulo}</h2>}
 
-      {/* Buscador: solo aparece si NO hay limite (en Productos) */}
+      {/* Buscador: solo en página Productos */}
       {!limite && (
         <div style={{ width: "100%", textAlign: "center", marginBottom: "20px" }}>
           <input
@@ -26,7 +47,7 @@ function ListaProductos({ productos, titulo, limite }) {
             value={busqueda}
             onChange={(e) => {
               setBusqueda(e.target.value);
-              setVisible(6); // reset al buscar
+              setVisible(6);
             }}
             style={{
               border: "2px solid #A0522D",
@@ -34,7 +55,7 @@ function ListaProductos({ productos, titulo, limite }) {
               padding: "10px 15px",
               fontSize: "16px",
               maxWidth: "400px",
-              width: "100%"
+              width: "100%",
             }}
           />
         </div>
@@ -48,12 +69,14 @@ function ListaProductos({ productos, titulo, limite }) {
             <h5 className="card-title">{prod.nombre}</h5>
             <p className="card-text">{prod.descripcion}</p>
             <p><b>Medidas:</b> {prod.medidas}</p>
-            <a href={`/producto/${prod.id}`} className="btn">Ver más</a>
+            <Link to={`/producto/${prod.id}`} className="btn">
+              Ver más
+            </Link>
           </div>
         </div>
       ))}
 
-      {/* boton cargar mas */}
+      {/* botón cargar más */}
       {!limite && visible < productosFiltrados.length && (
         <div style={{ width: "100%", textAlign: "center", marginTop: "20px" }}>
           <button className="btn" onClick={() => setVisible(visible + 6)}>
@@ -66,3 +89,4 @@ function ListaProductos({ productos, titulo, limite }) {
 }
 
 export default ListaProductos;
+

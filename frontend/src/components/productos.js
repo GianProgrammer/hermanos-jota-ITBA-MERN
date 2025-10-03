@@ -1,7 +1,7 @@
 const productos = [
   {
     id: 1,
-    ruta: "img/Aparador Uspallata.png",
+    ruta: "/img/Aparador Uspallata.png",
     nombre: "Aparador Uspallata",
     descripcion: "Aparador de seis puertas fabricado en nogal sostenible con tiradores metálicos en acabado latón.",
     medidas: "180 x 45 x 75 cm",
@@ -12,7 +12,7 @@ const productos = [
   },
   {
     id: 2,
-    ruta: "img/Biblioteca Recoleta.png",
+    ruta: "/img/Biblioteca Recoleta.png",
     nombre: "Biblioteca Recoleta",
     descripcion: "Sistema modular de estantes abierto en acero Sage Green y repisas en roble claro. Versátil y elegante.",
     medidas: "100 x 35 x 200 cm",
@@ -23,7 +23,7 @@ const productos = [
   },
   {
     id: 3,
-    ruta: "img/Butaca Mendoza.png",
+    ruta: "/img/Butaca Mendoza.png",
     nombre: "Butaca Mendoza",
     descripcion: "Butaca tapizada en bouclé Dusty Rose con base de guatambú. Respaldo curvo y diseño orgánico.",
     medidas: "80 x 75 x 85 cm",
@@ -34,7 +34,7 @@ const productos = [
   },
   {
     id: 4,
-    ruta:"img/Sillón Copacabana.png",
+    ruta:"/img/Sillón Copacabana.png",
     nombre: "Sillón Copacabana",
     descripcion: "Sillón lounge en cuero cognac con base giratoria en acero Burnt Sienna. Inspiración brasilera moderna.",
     medidas: "90 x 85 x 95 cm",
@@ -45,7 +45,7 @@ const productos = [
   },
   {
     id: 5,
-    ruta:"img/Mesa de Centro Araucaria.png",
+    ruta:"/img/Mesa de Centro Araucaria.png",
     nombre: "Mesa de Centro Araucaria",
     descripcion: "Mesa de centro con sobre circular de mármol Patagonia y patas de nogal.",
     medidas: "90 x 90 x 45 cm",
@@ -56,7 +56,7 @@ const productos = [
   },
   {
     id: 6,
-    ruta:"img/Mesa de Noche Aconcagua.png",
+    ruta:"/img/Mesa de Noche Aconcagua.png",
     nombre: "Mesa de Noche Aconcagua",
     descripcion: "Mesa de noche con cajón oculto y repisa inferior en roble FSC®.",
     medidas: "45 x 35 x 60 cm",
@@ -67,7 +67,7 @@ const productos = [
   },
   {
     id: 7,
-    ruta:"img/Cama neuquen.png",
+    ruta:"/img/Cama neuquen.png",
     nombre: "Cama Neuquén",
     descripcion: "Cama plataforma con cabecero flotante tapizado en lino natural.",
     medidas: "160 x 200 x 90 cm",
@@ -78,7 +78,7 @@ const productos = [
   },
   {
     id: 8,
-    ruta:"img/Sofá Patagonia.png",
+    ruta:"/img/Sofá Patagonia.png",
     nombre: "Sofá Patagonia",
     descripcion: "Sofá de tres cuerpos tapizado en lino Warm Alabaster con patas de madera.",
     medidas: "220 x 90 x 80 cm",
@@ -89,7 +89,7 @@ const productos = [
   },
   {
     id: 9,
-    ruta:"img/Mesa Comedor Pampa.png",
+    ruta:"/img/Mesa Comedor Pampa.png",
     nombre: "Mesa Comedor Pampa",
     descripcion: "Mesa extensible de roble macizo con tablero biselado.",
     medidas: "160-240 x 90 x 75 cm",
@@ -100,7 +100,7 @@ const productos = [
   },
   {
     id: 10,
-    ruta:"img/Sillas Córdoba.png",
+    ruta:"/img/Sillas Córdoba.png",
     nombre: "Sillas Córdoba",
     descripcion: "Set de cuatro sillas apilables en contrachapado de nogal y acero.",
     medidas: "45 x 52 x 80 cm (cada una)",
@@ -111,7 +111,7 @@ const productos = [
   },
   {
     id: 11,
-    ruta:"img/Escritorio Costa.png",
+    ruta:"/img/Escritorio Costa.png",
     nombre: "Escritorio Costa",
     descripcion: "Escritorio compacto con cajón y tapa pasacables en bambú laminado.",
     medidas: "120 x 60 x 75 cm",
@@ -122,7 +122,7 @@ const productos = [
   },
   {
     id: 12,
-    ruta:"img/Silla de Trabajo Belgrano.png",
+    ruta:"/img/Silla de Trabajo Belgrano.png",
     nombre: "Silla de Trabajo Belgrano",
     descripcion: "Silla ergonómica regulable en altura con respaldo de malla transpirable.",
     medidas: "60 x 60 x 90-100 cm",

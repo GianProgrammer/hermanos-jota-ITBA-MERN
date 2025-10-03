@@ -1,7 +1,8 @@
+// src/components/navbar.jsx
 import { Link } from "react-router-dom";
 import "../styles/navbar.css";
 
-function NavBar() {
+function NavBar({ carritoCount }) {
   return (
     <header>
       <a href="/">
@@ -18,6 +19,11 @@ function NavBar() {
           <li>
             <Link to="/contacto" className="botonesHeader">Contacto</Link>
           </li>
+          <li>
+            <Link to="/carrito" className="botonesHeader">
+              🛒 Carrito ({carritoCount})
+            </Link>
+          </li>
         </ul>
       </nav>
     </header>
@@ -25,5 +31,6 @@ function NavBar() {
 }
 
 export default NavBar;
+
 
 
