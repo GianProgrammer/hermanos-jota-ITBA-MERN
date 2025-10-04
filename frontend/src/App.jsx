@@ -7,6 +7,7 @@ import Home from "./Pages/home";
 import Productos from "./Pages/productos";
 import Contacto from "./Pages/contactos";
 import DetalleProducto from "./Pages/Detalleproducto";
+import Carrito from "./Pages/Carrito";
 
 function App() {
   const [carrito, setCarrito] = useState([]); // 🛒 estado global del carrito
@@ -24,11 +25,12 @@ function App() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/productos" element={<Productos />} />
-        <Route 
-          path="/producto/:id" 
-          element={<DetalleProducto addToCarrito={addToCarrito} />} 
+        <Route
+          path="/producto/:id"
+          element={<DetalleProducto addToCarrito={addToCarrito} />}
         />
         <Route path="/contacto" element={<Contacto />} />
+        <Route path="/carrito" element={<Carrito carrito={carrito} />} />
       </Routes>
 
       <Footer />
@@ -37,5 +39,3 @@ function App() {
 }
 
 export default App;
-
-
