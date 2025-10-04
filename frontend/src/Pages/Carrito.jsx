@@ -6,7 +6,7 @@ function Carrito({ carrito }) {
 
   return (
     <div className="carrito-container">
-      <h2>🛒 Carrito de Compras</h2>
+      <h2>Carrito de Compras</h2>
 
       {carrito.length === 0 ? (
         <p className="carrito-empty">Tu carrito está vacío.</p>
@@ -35,7 +35,7 @@ function Carrito({ carrito }) {
             <h3>Total: ${total}</h3>
             <button
               className="btn-confirm"
-              onClick={() => alert("✅ Compra confirmada")}
+              onClick={() => alert("Compra confirmada")}
             >
               Confirmar compra
             </button>
