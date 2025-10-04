@@ -3,133 +3,156 @@ const productos = [
     id: 1,
     ruta: "/img/Aparador Uspallata.png",
     nombre: "Aparador Uspallata",
-    descripcion: "Aparador de seis puertas fabricado en nogal sostenible con tiradores metálicos en acabado latón.",
+    descripcion:
+      "Aparador de seis puertas fabricado en nogal sostenible con tiradores metálicos en acabado latón.",
     medidas: "180 x 45 x 75 cm",
     materiales: "Nogal macizo FSC®, herrajes de latón",
     acabado: "Aceite natural ecológico",
     peso: "68 kg",
-    capacidad: "6 compartimentos interiores"
+    capacidad: "6 compartimentos interiores",
+    precio: 250000,
   },
   {
     id: 2,
     ruta: "/img/Biblioteca Recoleta.png",
     nombre: "Biblioteca Recoleta",
-    descripcion: "Sistema modular de estantes abierto en acero Sage Green y repisas en roble claro. Versátil y elegante.",
+    descripcion:
+      "Sistema modular de estantes abierto en acero Sage Green y repisas en roble claro. Versátil y elegante.",
     medidas: "100 x 35 x 200 cm",
     materiales: "Estructura de acero, estantes de roble",
     acabado: "Laca mate ecológica",
     capacidad: "45 kg por estante",
-    modulares: "5 estantes ajustables"
+    modulares: "5 estantes ajustables",
+    precio: 350000,
   },
   {
     id: 3,
     ruta: "/img/Butaca Mendoza.png",
     nombre: "Butaca Mendoza",
-    descripcion: "Butaca tapizada en bouclé Dusty Rose con base de guatambú. Respaldo curvo y diseño orgánico.",
+    descripcion:
+      "Butaca tapizada en bouclé Dusty Rose con base de guatambú. Respaldo curvo y diseño orgánico.",
     medidas: "80 x 75 x 85 cm",
     materiales: "Guatambú macizo, tela bouclé",
     acabado: "Cera vegetal, tapizado premium",
     tapizado: "Repelente al agua y manchas",
-    confort: "Espuma alta densidad"
+    confort: "Espuma alta densidad",
+    precio: 125000,
   },
   {
     id: 4,
-    ruta:"/img/Sillón Copacabana.png",
+    ruta: "/img/Sillón Copacabana.png",
     nombre: "Sillón Copacabana",
-    descripcion: "Sillón lounge en cuero cognac con base giratoria en acero Burnt Sienna. Inspiración brasilera moderna.",
+    descripcion:
+      "Sillón lounge en cuero cognac con base giratoria en acero Burnt Sienna. Inspiración brasilera moderna.",
     medidas: "90 x 85 x 95 cm",
     materiales: "Cuero curtido vegetal, acero pintado",
     acabado: "Cuero anilina premium",
     rotacion: "360° silenciosa y suave",
-    garantia: "10 años en estructura"
+    garantia: "10 años en estructura",
+    precio: 450000,
   },
   {
     id: 5,
-    ruta:"/img/Mesa de Centro Araucaria.png",
+    ruta: "/img/Mesa de Centro Araucaria.png",
     nombre: "Mesa de Centro Araucaria",
-    descripcion: "Mesa de centro con sobre circular de mármol Patagonia y patas de nogal.",
+    descripcion:
+      "Mesa de centro con sobre circular de mármol Patagonia y patas de nogal.",
     medidas: "90 x 90 x 45 cm",
     materiales: "Mármol Patagonia, nogal",
     acabado: "Mármol pulido, aceite natural en madera",
     peso: "42 kg",
-    cargaMaxima: "25 kg distribuidos"
+    cargaMaxima: "25 kg distribuidos",
+    precio: 230000,
   },
   {
     id: 6,
-    ruta:"/img/Mesa de Noche Aconcagua.png",
+    ruta: "/img/Mesa de Noche Aconcagua.png",
     nombre: "Mesa de Noche Aconcagua",
-    descripcion: "Mesa de noche con cajón oculto y repisa inferior en roble FSC®.",
+    descripcion:
+      "Mesa de noche con cajón oculto y repisa inferior en roble FSC®.",
     medidas: "45 x 35 x 60 cm",
     materiales: "Roble macizo FSC®, herrajes soft-close",
     acabado: "Barniz mate de poliuretano",
     almacenamiento: "1 cajón + repisa inferior",
-    caracteristicas: "Cajón con cierre suave"
+    caracteristicas: "Cajón con cierre suave",
+    precio: 124000,
   },
   {
     id: 7,
-    ruta:"/img/Cama neuquen.png",
+    ruta: "/img/Cama neuquen.png",
     nombre: "Cama Neuquén",
-    descripcion: "Cama plataforma con cabecero flotante tapizado en lino natural.",
+    descripcion:
+      "Cama plataforma con cabecero flotante tapizado en lino natural.",
     medidas: "160 x 200 x 90 cm",
     materiales: "Roble macizo FSC®, tapizado lino",
     acabado: "Aceite natural, tapizado premium",
     colchon: "Compatible 160x200",
-    caracteristicas: "Cabecero flotante acolchado"
+    caracteristicas: "Cabecero flotante acolchado",
+    precio: 210000,
   },
   {
     id: 8,
-    ruta:"/img/Sofá Patagonia.png",
+    ruta: "/img/Sofá Patagonia.png",
     nombre: "Sofá Patagonia",
-    descripcion: "Sofá de tres cuerpos tapizado en lino Warm Alabaster con patas de madera.",
+    descripcion:
+      "Sofá de tres cuerpos tapizado en lino Warm Alabaster con patas de madera.",
     medidas: "220 x 90 x 80 cm",
     estructura: "Madera de eucalipto FSC®",
     tapizado: "Lino 100% natural premium",
     relleno: "Espuma HR + plumón reciclado",
-    sostenibilidad: "Materiales 100% reciclables"
+    sostenibilidad: "Materiales 100% reciclables",
+    precio: 230000,
   },
   {
     id: 9,
-    ruta:"/img/Mesa Comedor Pampa.png",
+    ruta: "/img/Mesa Comedor Pampa.png",
     nombre: "Mesa Comedor Pampa",
     descripcion: "Mesa extensible de roble macizo con tablero biselado.",
     medidas: "160-240 x 90 x 75 cm",
     materiales: "Roble macizo FSC®, mecanismo alemán",
     acabado: "Aceite-cera natural",
     capacidad: "6-10 comensales",
-    extension: "Sistema de mariposa central"
+    extension: "Sistema de mariposa central",
+    precio: 320000,
   },
   {
     id: 10,
-    ruta:"/img/Sillas Córdoba.png",
+    ruta: "/img/Sillas Córdoba.png",
     nombre: "Sillas Córdoba",
-    descripcion: "Set de cuatro sillas apilables en contrachapado de nogal y acero.",
+    descripcion:
+      "Set de cuatro sillas apilables en contrachapado de nogal y acero.",
     medidas: "45 x 52 x 80 cm (cada una)",
     materiales: "Contrachapado nogal, tubo de acero",
     acabado: "Laca mate, pintura epoxi",
     apilables: "Hasta 6 sillas",
-    incluye: "Set de 4 sillas"
+    incluye: "Set de 4 sillas",
+    precio: 75000,
   },
   {
     id: 11,
-    ruta:"/img/Escritorio Costa.png",
+    ruta: "/img/Escritorio Costa.png",
     nombre: "Escritorio Costa",
-    descripcion: "Escritorio compacto con cajón y tapa pasacables en bambú laminado.",
+    descripcion:
+      "Escritorio compacto con cajón y tapa pasacables en bambú laminado.",
     medidas: "120 x 60 x 75 cm",
     materiales: "Bambú laminado, herrajes ocultos",
     acabado: "Laca mate resistente",
     almacenamiento: "1 cajón con organizador",
-    cables: "Pasacables integrado"
+    cables: "Pasacables integrado",
+    precio: 120000,
   },
   {
     id: 12,
-    ruta:"/img/Silla de Trabajo Belgrano.png",
+    ruta: "/img/Silla de Trabajo Belgrano.png",
     nombre: "Silla de Trabajo Belgrano",
-    descripcion: "Silla ergonómica regulable en altura con respaldo de malla transpirable.",
+    descripcion:
+      "Silla ergonómica regulable en altura con respaldo de malla transpirable.",
     medidas: "60 x 60 x 90-100 cm",
     materiales: "Malla técnica, tejido reciclado",
     acabado: "Base cromada, tapizado premium",
     regulacion: "Altura + inclinación respaldo",
-    certificacion: "Ergonomía europea EN 1335"
-  }
+    certificacion: "Ergonomía europea EN 1335",
+    precio: 80000,
+  },
 ];
 export default productos;
