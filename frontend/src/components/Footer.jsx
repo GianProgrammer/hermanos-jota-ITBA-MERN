@@ -20,9 +20,9 @@ function Footer() {
         </ul>
       </div>
       <div className="d-flex flex-row copyright">
-        <p><b>© 2025 Hermanos Jota.</b> Todos los derechos reservados.</p>
+        <p><b>© 2025 Hermanos Jota.</b> Todoos los derechos reservados.</p>
       </div>
     </footer>
-  );
+  );	
 }
 export default Footer;
