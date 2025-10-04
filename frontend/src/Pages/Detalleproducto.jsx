@@ -1,6 +1,6 @@
 // src/Pages/Detalleproducto.jsx
 import { useParams, Link } from "react-router-dom";
-import productos from "../components/productos";
+import productos from "../../../backend/productos";
 import "../styles/producto.css";
 
 function DetalleProducto({ addToCarrito }) {

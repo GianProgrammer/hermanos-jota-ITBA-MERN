@@ -1,5 +1,5 @@
 import "../styles/home.css";
-import productos from "../components/productos";
+import productos from "../../../backend/productos";
 import ListaProductos from "../components/Listaproductos";
 
 function Home() {

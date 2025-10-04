@@ -1,13 +1,13 @@
 // server.js
 import express from "express";
 import cors from "cors";
-import productos from "./src/components/productos.js"; // ajustá la ruta según dónde esté tu archivo
+import productos from "./productos.js"; // ajustá la ruta según dónde esté tu archivo
 
 const app = express();
 const PORT = 5000;
 
 app.use(cors()); // permite que el frontend haga fetch
-
+app.use(express.json())
 // Endpoint que devuelve todos los productos
 app.get("/api/productos", (req, res) => {
   res.json(productos);
