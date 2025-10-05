@@ -18,10 +18,8 @@ function App() {
   };
 
   return (
-    <>
-      {/* Pasamos la cantidad de items a NavBar */}
+    <div className="App">
       <NavBar carritoCount={carrito.length} />
-
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/productos" element={<Productos />} />
@@ -32,9 +30,8 @@ function App() {
         <Route path="/contacto" element={<Contacto />} />
         <Route path="/carrito" element={<Carrito carrito={carrito} setCarrito={setCarrito}/>} />
       </Routes>
-
       <Footer />
-    </>
+    </div>
   );
 }
 

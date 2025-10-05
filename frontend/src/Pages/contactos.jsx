@@ -23,21 +23,40 @@ function Contacto() {
     });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("Datos del formulario:", formData);
-    setSuccess(true);
-    setFormData({
-      nombre: "",
-      email: "",
-      tel: "",
-      cel: "",
-      provincia: "",
-      ciudad: "",
-      motivo: "",
-      mensaje: "",
-    });
+
+    try {
+      const response = await fetch("http://localhost:5000/api/contacto", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      });
+
+      if (!response.ok) throw new Error("Error al enviar el formulario");
+
+      const data = await response.json();
+      console.log("✅ Respuesta del servidor:", data);
+
+      setSuccess(true);
+      setFormData({
+        nombre: "",
+        email: "",
+        tel: "",
+        cel: "",
+        provincia: "",
+        ciudad: "",
+        motivo: "",
+        mensaje: "",
+      });
+    } catch (error) {
+      console.error("❌ Error:", error.message);
+      alert("Ocurrió un error al enviar el mensaje. Intenta nuevamente.");
+    }
   };
+
 
   return (
     <>
