@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import "../styles/home.css";
+import "../styles/producto.css"; // 👈 importa el CSS
 
 function ListaProductos({ titulo, limite }) {
   const [productos, setProductos] = useState([]);
@@ -10,7 +10,7 @@ function ListaProductos({ titulo, limite }) {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    fetch("http://localhost:5000/api/productos") // puerto del backend
+    fetch("http://localhost:5000/api/productos")
       .then((res) => {
         if (!res.ok) throw new Error("Error al cargar los productos");
         return res.json();
@@ -36,11 +36,11 @@ function ListaProductos({ titulo, limite }) {
 
   return (
     <section className="prod-dest">
-      {titulo && <h2>{titulo}</h2>}
+      {titulo && <h2 className="titulo-seccion">{titulo}</h2>}
 
-      {/* Buscador: solo en página Productos */}
+      {/* 🔍 Buscador: solo visible en página Productos */}
       {!limite && (
-        <div style={{ width: "100%", textAlign: "center", marginBottom: "20px" }}>
+        <div className="contenedor-busqueda">
           <input
             type="text"
             placeholder="Buscar producto..."
@@ -49,36 +49,31 @@ function ListaProductos({ titulo, limite }) {
               setBusqueda(e.target.value);
               setVisible(6);
             }}
-            style={{
-              border: "2px solid #A0522D",
-              borderRadius: "25px",
-              padding: "10px 15px",
-              fontSize: "16px",
-              maxWidth: "400px",
-              width: "100%",
-            }}
+            className="barra-busqueda"
           />
         </div>
       )}
 
-      {/* grid de productos */}
-      {productosAMostrar.map((prod) => (
-        <div key={prod.id} className="card">
-          <img src={prod.ruta} alt={prod.nombre} className="card-img-top" />
-          <div className="card-body">
-            <h5 className="card-title">{prod.nombre}</h5>
-            <p className="card-text">{prod.descripcion}</p>
-            <p><b>Medidas:</b> {prod.medidas}</p>
-            <Link to={`/producto/${prod.id}`} className="btn">
-              Ver más
-            </Link>
+      {/* 🛍️ Grid de productos */}
+      <div className="grid-productos">
+        {productosAMostrar.map((prod) => (
+          <div key={prod.id} className="card">
+            <img src={prod.ruta} alt={prod.nombre} className="card-img-top" />
+            <div className="card-body">
+              <h5 className="card-title">{prod.nombre}</h5>
+              <p className="card-text">{prod.descripcion}</p>
+              <p><b>Medidas:</b> {prod.medidas}</p>
+              <Link to={`/producto/${prod.id}`} className="btn">
+                Ver más
+              </Link>
+            </div>
           </div>
-        </div>
-      ))}
+        ))}
+      </div>
 
-      {/* botón cargar más */}
+      {/* 🔁 Botón “Cargar más” */}
       {!limite && visible < productosFiltrados.length && (
-        <div style={{ width: "100%", textAlign: "center", marginTop: "20px" }}>
+        <div className="contenedor-cargar-mas">
           <button className="btn" onClick={() => setVisible(visible + 6)}>
             Cargar más
           </button>
@@ -89,4 +84,5 @@ function ListaProductos({ titulo, limite }) {
 }
 
 export default ListaProductos;
+
 

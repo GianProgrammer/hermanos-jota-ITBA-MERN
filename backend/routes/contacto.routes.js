@@ -50,7 +50,7 @@ Hola ${datos.nombre},
 
 Recibimos tu mensaje correctamente y nos pondremos en contacto con vos a la brevedad.
 
-🪵 Motivo: ${datos.motivo}
+✅ Motivo: ${datos.motivo}
 📍 Ciudad: ${datos.ciudad}
 📞 Teléfono: ${datos.tel || "No especificado"}
 

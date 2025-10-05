@@ -68,28 +68,33 @@ a.botonesHeader:visited {
   border: 1px solid #A0522D;
 }
 
-/* Responsive */
+/* 🟠 RESPONSIVE */
 @media (max-width: 768px) {
   header {
     flex-direction: column;
-    justify-content: center;
+    align-items: center;
     text-align: center;
+    padding: 20px 10px;
   }
 
   nav {
-    margin-top: 12px;
     width: 100%;
+    justify-content: center;
   }
 
   nav ul {
     flex-direction: column;
-    gap: 0.6rem;
+    align-items: center;
+    gap: 1rem;
+    width: 100%;
   }
 
   .botonesHeader {
-    display: inline-block;
+    display: block;
     width: 100%;
-    max-width: 240px;
+    max-width: 260px;   /* 🔹 Más ancho para mejor proporción */
+    font-size: 1.5rem;  /* 🔹 Mayor tamaño en mobile */
+    margin: 0 auto;
   }
 }
 
