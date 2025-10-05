@@ -92,10 +92,7 @@ a.botonesHeader:visited {
     max-width: 240px;
   }
 }
-/* Badge del carrito */
-nav ul li:last-child .botonesHeader {
-  position: relative;
-}
+
 
 nav ul li:last-child .botonesHeader::after {
   content: attr(data-count);

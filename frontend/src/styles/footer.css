@@ -1,18 +1,25 @@
 /* ==============================
    FOOTER
 ============================== */
-footer {
+
+footer.footer {
   background-color: var(--bg-soft, #F5E6D3);
   padding: 25px 20px;
   font-family: "Inter", system-ui, sans-serif;
   display: flex;
   flex-direction: column;
   gap: 20px;
-  margin-top: auto; /* se asegura de quedar abajo */
+  margin-top: auto;
   border-top: 1px solid var(--line, #E7D8C6);
+
+  /* 🧩 Ajuste dinámico */
+  width: 100%;
+  box-sizing: border-box;
 }
 
-/* Contenedor principal (redes + mails) */
+/* ==============================
+   CONTENEDOR DE REDES Y MAILS
+============================== */
 .redes-container {
   display: flex;
   justify-content: space-between;
@@ -21,7 +28,9 @@ footer {
   gap: 30px;
 }
 
-/* Listas */
+/* ==============================
+   LISTAS
+============================== */
 .lista-footer {
   margin: 0;
   padding: 0;
@@ -31,14 +40,15 @@ footer {
   list-style: none;
 }
 
-/* Texto de mails */
+/* ==============================
+   TEXTOS Y LINKS
+============================== */
 .mail-footer {
   font-size: 0.95rem;
   color: var(--ink, #3E2723);
   font-weight: 400;
 }
 
-/* Iconos de redes */
 .fotoRed {
   width: 20px;
   height: 20px;
@@ -46,7 +56,6 @@ footer {
   vertical-align: middle;
 }
 
-/* Enlaces de redes */
 .redes {
   color: var(--brand, #A0522D);
   text-decoration: none;
@@ -60,7 +69,9 @@ footer {
   text-decoration: underline;
 }
 
-/* Copyright */
+/* ==============================
+   COPYRIGHT
+============================== */
 .copyright {
   text-align: center;
   font-size: 0.85rem;
@@ -69,7 +80,7 @@ footer {
 }
 
 /* ==============================
-   Responsive
+   RESPONSIVE
 ============================== */
 @media (max-width: 768px) {
   .redes-container {
@@ -82,3 +93,24 @@ footer {
     align-items: center;
   }
 }
+
+/* ==============================
+   BODY BASE (si no está en global.css)
+============================== */
+html,
+body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+main {
+  flex: 1;
+}
+

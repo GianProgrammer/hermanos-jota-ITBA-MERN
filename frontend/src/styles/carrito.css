@@ -1,64 +1,291 @@
-.carrito-container {
-  max-width: 800px;
-  margin: 40px auto;
+/* ==============================
+   ESTRUCTURA GENERAL
+============================== */
+.carrito-wrapper {
+  max-width: 1100px;
+  margin: 60px auto;
   padding: 20px;
+  font-family: "Inter", system-ui, sans-serif;
 }
 
-.carrito-empty {
+.carrito-titulo {
   text-align: center;
-  font-size: 18px;
-  margin-top: 20px;
+  font-family: "Playfair Display", serif;
+  font-size: 2rem;
+  color: #3e2723;
+  margin-bottom: 40px;
 }
 
+/* ==============================
+   LAYOUT PRINCIPAL
+============================== */
+.carrito-layout {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 40px;
+  align-items: start;
+}
+
+/* ==============================
+   LISTA DE PRODUCTOS
+============================== */
 .carrito-list {
   list-style: none;
   padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
 }
 
 .carrito-item {
   display: flex;
-  justify-content: space-between;
-  align-items: center;
-  border-bottom: 1px solid #ddd;
-  padding: 10px 0;
+  gap: 15px;
+  padding: 20px;
+  background: #fffaf5;
+  border: 1px solid #ead9c7;
+  border-radius: 12px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.carrito-item:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
 
 .carrito-img {
-  width: 80px;
+  width: 100px;
   height: auto;
-  margin-right: 15px;
   border-radius: 8px;
+  object-fit: cover;
+}
+
+.carrito-info {
+  flex: 1;
 }
 
 .carrito-info h4 {
   margin: 0;
+  color: #3e2723;
+  font-size: 1.1rem;
 }
 
-.carrito-total {
+.carrito-descripcion {
+  font-size: 0.9rem;
+  color: #6b4c3b;
+  margin: 6px 0 10px;
+}
+
+.precio {
+  color: #a0522d;
+  font-size: 1rem;
+}
+
+.btn-borrar {
+  background: none;
+  border: none;
+  color: #a0522d;
+  font-weight: 600;
+  cursor: pointer;
+  padding: 0;
+  transition: color 0.3s ease;
+}
+
+.btn-borrar:hover {
+  color: #7c3f19;
+  text-decoration: underline;
+}
+
+/* ==============================
+   RESUMEN DE COMPRA
+============================== */
+.carrito-resumen {
+  background: #f9f1e7;
+  border: 1px solid #ead9c7;
+  border-radius: 12px;
+  padding: 25px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+  position: sticky;
+  top: 100px;
+}
+
+.carrito-resumen h3 {
+  margin-bottom: 20px;
+  font-family: "Playfair Display", serif;
+  color: #3e2723;
+  font-size: 1.3rem;
+}
+
+.carrito-linea {
+  display: flex;
+  justify-content: space-between;
+  margin: 10px 0;
+  font-size: 1rem;
+}
+
+.carrito-linea.total {
+  font-size: 1.1rem;
   margin-top: 20px;
-  text-align: right;
 }
 
 .btn-confirm {
   background-color: #a0522d;
   color: white;
-  padding: 10px 15px;
+  padding: 12px 18px;
   border: none;
   border-radius: 6px;
   cursor: pointer;
+  width: 100%;
+  margin-top: 20px;
+  font-size: 1rem;
+  transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
 .btn-confirm:hover {
-  background-color: #804000;
+  background-color: #8b421f;
+  transform: translateY(-2px);
 }
 
-.carrito-descripcion {
-  font-size: 14px;
-  color: #555;
-  margin: 5px 0 8px 0;
+/* ==============================
+   ESTADO VACÍO
+============================== */
+.carrito-empty {
+  text-align: center;
+  font-size: 1.2rem;
+  color: #5d4037;
+  margin: 100px 0;
 }
 
-.borrarItem {
-  height: auto;
-  width: auto;
+/* ==============================
+   RESPONSIVE
+============================== */
+@media (max-width: 900px) {
+  .carrito-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .carrito-resumen {
+    position: static;
+    margin-top: 30px;
+  }
+}
+/* ==============================
+   SECCIÓN DE RECOMENDADOS (HORIZONTAL)
+============================== */
+.recomendados {
+  margin-top: 50px;
+  text-align: center;
+}
+
+.recomendados h3 {
+  font-family: "Playfair Display", serif;
+  font-size: 1.7rem;
+  color: #3e2723;
+  margin-bottom: 25px;
+}
+
+/* Contenedor principal */
+.recomendados-carousel {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 15px;
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+  max-width: 950px;
+  margin: 0 auto;
+}
+
+/* Carrusel que se desplaza */
+.recomendados-slider {
+  display: flex;
+  transition: transform 0.6s ease;
+  gap: 20px;
+}
+
+/* Tarjetas de producto */
+.recomendado-card {
+  flex: 0 0 280px;
+  background: #fffaf5;
+  border: 1px solid #ead9c7;
+  border-radius: 12px;
+  padding: 15px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+  text-align: center;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.recomendado-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 5px 12px rgba(0, 0, 0, 0.1);
+}
+
+.recomendado-card img {
+  width: 100%;
+  height: 160px;
+  object-fit: contain;
+  margin-bottom: 10px;
+  border-radius: 8px;
+}
+
+.recomendado-card h4 {
+  font-family: "Playfair Display", serif;
+  font-size: 1rem;
+  color: #3e2723;
+  margin: 8px 0 4px;
+}
+
+.recomendado-card p {
+  color: #a0522d;
+  font-weight: 600;
+  margin-bottom: 10px;
+}
+
+.recomendado-card button {
+  background-color: #a0522d;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  padding: 8px 12px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.recomendado-card button:hover {
+  background-color: #7c3f19;
+}
+
+/* Botones de navegación */
+.carousel-controles {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  margin-top: 15px;
+}
+
+.carousel-controles button {
+  background: #a0522d;
+  border: none;
+  color: white;
+  font-size: 1.3rem;
+  padding: 6px 10px;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.carousel-controles button:hover {
+  background-color: #7b3f19;
+}
+
+@media (max-width: 768px) {
+  .recomendado-card {
+    flex: 0 0 220px;
+  }
+
+  .recomendados-carousel {
+    max-width: 100%;
+  }
 }

@@ -1,34 +1,34 @@
-// server.js
 import express from "express";
 import cors from "cors";
-import productos from "./productos.js"; // ajustá la ruta según dónde esté tu archivo
+import productosRouter from "./routes/productos.routes.js";
 
 const app = express();
 const PORT = 5000;
 
-app.use(cors()); // permite que el frontend haga fetch
-app.use(express.json())
+// Middleware global
+app.use(cors());
+app.use(express.json());
 
 app.use((req, res, next) => {
-  console.log(`Petición recibida: ${req.method} ${req.url}`);
-  next(); // sigue al siguiente middleware o ruta
+  console.log(`➡️ Petición recibida: ${req.method} ${req.url}`);
+  next();
 });
 
-// Endpoint que devuelve todos los productos
-app.get("/api/productos", (req, res) => {
-  res.json(productos);
+// Rutas principales
+app.use("/api/productos", productosRouter);
+
+// Middleware 404 - rutas no encontradas
+app.use((req, res, next) => {
+  res.status(404).json({ error: "Ruta no encontrada" });
 });
 
-// Endpoint para un producto específico (ejemplo: /api/productos/3)
-app.get("/api/productos/:id", (req, res) => {
-  const producto = productos.find(p => p.id === parseInt(req.params.id));
-  if (producto) {
-    res.json(producto);
-  } else {
-    res.status(404).json({ error: "Producto no encontrado" });
-  }
+// Middleware de manejo de errores global
+app.use((err, req, res, next) => {
+  console.error("💥 Error interno:", err.message);
+  res.status(500).json({ error: "Error interno del servidor" });
 });
 
+// Inicio del servidor
 app.listen(PORT, () => {
   console.log(`Servidor backend en http://localhost:${PORT}`);
 });
