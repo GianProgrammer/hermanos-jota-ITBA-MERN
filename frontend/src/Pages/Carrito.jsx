@@ -1,8 +1,15 @@
 // src/Pages/Carrito.jsx
 import "../styles/carrito.css";
 
-function Carrito({ carrito }) {
+
+
+function Carrito({ carrito, setCarrito }) {
   const total = carrito.reduce((acc, item) => acc + item.precio, 0);
+
+  const borrarItem = (index) => {
+    const nuevoCarrito = carrito.filter((_, i) => i !== index);
+    setCarrito(nuevoCarrito);
+  };
 
   return (
     <div className="carrito-container">
@@ -26,6 +33,9 @@ function Carrito({ carrito }) {
                   <p>
                     <b>Precio:</b> ${prod.precio}
                   </p>
+                </div>
+                <div className="borrarItem">
+                  <button onClick={() => borrarItem(i)}>❌</button>
                 </div>
               </li>
             ))}

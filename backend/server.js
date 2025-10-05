@@ -8,6 +8,12 @@ const PORT = 5000;
 
 app.use(cors()); // permite que el frontend haga fetch
 app.use(express.json())
+
+app.use((req, res, next) => {
+  console.log(`Petición recibida: ${req.method} ${req.url}`);
+  next(); // sigue al siguiente middleware o ruta
+});
+
 // Endpoint que devuelve todos los productos
 app.get("/api/productos", (req, res) => {
   res.json(productos);

@@ -30,7 +30,7 @@ function App() {
           element={<DetalleProducto addToCarrito={addToCarrito} />}
         />
         <Route path="/contacto" element={<Contacto />} />
-        <Route path="/carrito" element={<Carrito carrito={carrito} />} />
+        <Route path="/carrito" element={<Carrito carrito={carrito} setCarrito={setCarrito}/>} />
       </Routes>
 
       <Footer />
