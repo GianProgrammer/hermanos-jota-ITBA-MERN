@@ -35,7 +35,7 @@ Este proyecto corresponde a las consignas finales de **Sprint 3 y 4**.
 - Endpoints:  
   - `GET /api/productos` → Devuelve todos los productos.  
   - `GET /api/productos/:id` → Devuelve un producto por su ID o 404 si no existe.
-  -  POST /api/contacto → Recibe los datos del formulario de contacto y envía un correo automático mediante Nodemailer.
+  - `POST /api/contacto` → Recibe los datos del formulario de contacto y envía un correo automático mediante Nodemailer.
 - Middleware:  
   - `express.json()` para procesar JSON.  
   - Middleware global de logging (método + URL).  
