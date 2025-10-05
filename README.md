@@ -34,7 +34,8 @@ Este proyecto corresponde a las consignas finales de **Sprint 3 y 4**.
 - Fuente de datos en archivo local `.js` (array de objetos).  
 - Endpoints:  
   - `GET /api/productos` → Devuelve todos los productos.  
-  - `GET /api/productos/:id` → Devuelve un producto por su ID o 404 si no existe.  
+  - `GET /api/productos/:id` → Devuelve un producto por su ID o 404 si no existe.
+  -  POST /api/contacto → Recibe los datos del formulario de contacto y envía un correo automático mediante Nodemailer.
 - Middleware:  
   - `express.json()` para procesar JSON.  
   - Middleware global de logging (método + URL).  
@@ -92,7 +93,7 @@ http://localhost:5173
 - En el frontend, se optó por **React**, descomponiendo la interfaz en componentes reutilizables para mayor mantenibilidad.  
 - El detalle de producto se implementó con renderizado condicional (sin React Router, según consigna).
 - El carrito se maneja como estado global en `App.js`, propagando la información mediante props a `Navbar` y `ProductDetail`.  
-- El formulario de contacto es **controlado** para asegurar la consistencia de datos.  
+- El formulario de contacto del frontend envía los datos al endpoint /api/contacto. El backend procesa la solicitud y, utilizando Nodemailer junto con credenciales seguras almacenadas en un archivo .env, envía automáticamente un correo a la cuenta configurada. El envío se realiza mediante una App Password de Gmail para garantizar la autenticación y seguridad del sistema.
 
 ---
 
