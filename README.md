@@ -63,6 +63,7 @@ cd <NOMBRE_DEL_REPO>
 ```bash
 cd backend
 npm install
+npm install nodemailer dotenv
 nodemon server.js
 ```
 El servidor se levantará en:  
