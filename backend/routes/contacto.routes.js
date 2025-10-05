@@ -4,15 +4,15 @@ import nodemailer from "nodemailer";
 import dotenv from "dotenv";
 
 dotenv.config();
-
 const router = express.Router();
 
+// POST /api/contacto
 router.post("/", async (req, res) => {
   const datos = req.body;
   console.log("📩 Mensaje recibido del formulario:", datos);
 
   try {
-    // Configurar transporte de correo
+    // Crear el transporte con tu cuenta Gmail y clave de aplicación
     const transporter = nodemailer.createTransport({
       service: "gmail",
       auth: {
@@ -21,36 +21,59 @@ router.post("/", async (req, res) => {
       },
     });
 
-    // Contenido del correo
-    const mailOptions = {
-      from: `"Hermanos Jota" <${process.env.EMAIL_USER}>`,
-      to: process.env.EMAIL_USER, // te lo manda a vos
+    // 📨 1. Email para vos (administrador)
+    const mailAdmin = {
+      from: `"Formulario Hermanos Jota" <${process.env.EMAIL_USER}>`,
+      to: process.env.EMAIL_USER,
       subject: `Nuevo mensaje de ${datos.nombre}`,
-      html: `
-        <h2>📨 Nuevo mensaje desde el formulario</h2>
-        <p><strong>Nombre:</strong> ${datos.nombre}</p>
-        <p><strong>Email:</strong> ${datos.email}</p>
-        <p><strong>Tel:</strong> ${datos.tel || "No especificado"}</p>
-        <p><strong>Cel:</strong> ${datos.cel || "No especificado"}</p>
-        <p><strong>Provincia:</strong> ${datos.provincia}</p>
-        <p><strong>Ciudad:</strong> ${datos.ciudad}</p>
-        <p><strong>Motivo:</strong> ${datos.motivo}</p>
-        <p><strong>Mensaje:</strong><br/>${datos.mensaje}</p>
+      text: `
+Nuevo mensaje desde el formulario de contacto:
+
+Nombre: ${datos.nombre}
+Email: ${datos.email}
+Teléfono: ${datos.tel}
+Celular: ${datos.cel}
+Provincia: ${datos.provincia}
+Ciudad: ${datos.ciudad}
+Motivo: ${datos.motivo}
+Mensaje: ${datos.mensaje}
       `,
     };
 
-    // Enviar el correo
-    await transporter.sendMail(mailOptions);
-    console.log("✅ Correo enviado correctamente");
+    // 💌 2. Email de confirmación al usuario
+    const mailUsuario = {
+      from: `"Hermanos Jota" <${process.env.EMAIL_USER}>`,
+      to: datos.email,
+      subject: "¡Gracias por contactarte con Hermanos Jota!",
+      text: `
+Hola ${datos.nombre},
 
-    res.json({ mensaje: "Formulario recibido y correo enviado correctamente" });
+Recibimos tu mensaje correctamente y nos pondremos en contacto con vos a la brevedad.
+
+🪵 Motivo: ${datos.motivo}
+📍 Ciudad: ${datos.ciudad}
+📞 Teléfono: ${datos.tel || "No especificado"}
+
+Gracias por escribirnos.
+El equipo de Hermanos Jota
+      `,
+    };
+
+    // Enviar ambos correos
+    await transporter.sendMail(mailAdmin);
+    await transporter.sendMail(mailUsuario);
+
+    console.log("✅ Correos enviados con éxito");
+    res.json({ mensaje: "Formulario recibido correctamente y correos enviados." });
+
   } catch (error) {
-    console.error("❌ Error al enviar el correo:", error.message);
-    res.status(500).json({ error: "Error al enviar el correo" });
+    console.error("❌ Error al enviar correos:", error);
+    res.status(500).json({ error: "Error al enviar el mensaje." });
   }
 });
 
 export default router;
+
 
 
 
