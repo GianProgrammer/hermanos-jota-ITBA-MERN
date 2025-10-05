@@ -151,3 +151,17 @@
   .prod-dest .card { flex-basis: 100%; max-width: 480px; }
   .prod-dest .card-img-top { height: 180px; }
 }
+.btn {
+  background-color: #A0522D;
+  border: none;
+  color: #fff;
+  padding: 8px 14px;
+  font-size: 14px;
+  border-radius: 6px;
+  display: inline-block;
+  text-decoration: none;
+}
+
+.btn:hover{
+  background-color: #8b5c25;
+}
