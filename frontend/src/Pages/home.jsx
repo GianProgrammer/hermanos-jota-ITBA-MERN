@@ -12,8 +12,14 @@ function Home() {
         </div>
       </section>
 
-      {/* Solo primeros 3 productos */}
-      <ListaProductos productos={productos} titulo="Productos Destacados" limite={3} />
+      <section className="prod-dest">
+        <ListaProductos
+          productos={productos}
+          titulo="Productos Destacados"
+          limite={3}
+        />
+      </section>
+
     </>
   );
 }

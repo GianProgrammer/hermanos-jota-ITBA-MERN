@@ -1,13 +1,30 @@
-/* ======= PRODUCTOS PAGE ======= */
+/* =========================================================
+   🛒 PRODUCTOS PAGE
+   ========================================================= */
 
 .productos-container {
   max-width: 1200px;
-  margin: 40px auto 80px;
-  padding: 0 20px;
+  margin: 0 auto;
+  padding: 40px 20px 80px;
   text-align: center;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  padding-bottom: 80px;
 }
 
-/* 🔍 Buscador */
+.titulo-seccion {
+  font-family: "Playfair Display", serif;
+  font-weight: 700;
+  color: #4a2e16;
+  font-size: 2rem;
+  margin-bottom: 40px;
+}
+
+/* =========================================================
+   🔍 BUSCADOR
+   ========================================================= */
+
 .contenedor-busqueda {
   width: 100%;
   margin: 0 auto 30px;
@@ -46,27 +63,35 @@
   }
 }
 
-/* 🧱 Grid de productos */
+/* =========================================================
+   🧱 GRID DE PRODUCTOS
+   ========================================================= */
+
 .grid-productos {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: 28px;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 35px;
   justify-items: center;
+  margin-top: 20px;
 }
 
-/* 🛍️ Card general */
+/* =========================================================
+   🪵 CARD DE PRODUCTO
+   ========================================================= */
+
 .card {
   background-color: #fff;
-  border-radius: 12px;
-  box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+  border-radius: 14px;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.05);
   width: 100%;
   max-width: 300px;
   overflow: hidden;
-  transition: transform 0.3s ease;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
 }
 
 .card:hover {
-  transform: translateY(-5px);
+  transform: translateY(-6px);
+  box-shadow: 0 10px 25px rgba(0,0,0,0.08);
 }
 
 .card-img-top {
@@ -79,7 +104,8 @@
 }
 
 .card-body {
-  padding: 16px;
+  padding: 18px;
+  text-align: left;
 }
 
 .card-title {
@@ -95,23 +121,174 @@
   margin-bottom: 10px;
 }
 
+/* =========================================================
+   🎨 BOTONES
+   ========================================================= */
+
 .btn {
   background-color: #A0522D;
   color: #fff;
   border: none;
   padding: 8px 14px;
-  border-radius: 20px;
-  font-size: 0.95rem;
+  border-radius: 25px;
+  font-size: 0.9rem;
   cursor: pointer;
   transition: all 0.3s ease;
+  display: inline-block;
 }
 
 .btn:hover {
   background-color: #8b5c25;
-  transform: scale(1.03);
+  transform: scale(1.05);
+}
+
+.btn-volver {
+  background: transparent;
+  border: 1px solid #A0522D;
+  color: #A0522D;
+  padding: 8px 14px;
+  border-radius: 25px;
+  font-size: 0.9rem;
+  text-decoration: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.btn-volver:hover {
+  background-color: #A0522D;
+  color: #fff;
 }
 
 .contenedor-cargar-mas {
   text-align: center;
-  margin-top: 25px;
+  margin-top: 30px;
+}
+
+/* =========================================================
+   🎯 AJUSTES DE SECCIÓN
+   ========================================================= */
+
+.lista-productos {
+  text-align: center;
+}
+
+/* =========================================================
+   🌟 PRODUCTOS DESTACADOS (Home)
+   ========================================================= */
+
+.prod-dest {
+  max-width: 1200px;
+  margin: 60px auto 120px;
+  padding: 0 20px;
+  text-align: center;
+}
+
+.prod-dest .grid-productos {
+  display: flex;
+  justify-content: center;
+  align-items: stretch;
+  flex-wrap: wrap;
+  gap: 15px;
+  margin-top: 40px;
+}
+
+.prod-dest .card {
+  max-width: 320px;
+  flex: 1 1 300px;
+  background-color: #fff;
+  border-radius: 14px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.prod-dest .card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+}
+
+/* =========================================================
+   🧾 DETALLE DE PRODUCTO
+   ========================================================= */
+
+.detalle-producto {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 50px;
+  max-width: 1200px;
+  margin: 60px auto 120px;
+  padding: 0 20px;
+  text-align: left;
+  box-sizing: border-box;
+}
+
+/* Imagen del producto */
+.detalle-producto .detalle-imagen img {
+  max-width: 450px;
+  width: 100%;
+  height: auto;
+  object-fit: contain;
+  border-radius: 14px;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.05);
+  background-color: #fff;
+  padding: 10px;
+}
+
+/* Bloque de información */
+.detalle-producto .detalle-info {
+  max-width: 500px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+/* Título */
+.detalle-producto .detalle-info h1 {
+  font-family: "Playfair Display", serif;
+  font-weight: 700;
+  font-size: 1.8rem;
+  color: #4a2e16;
+  margin-bottom: 15px;
+}
+
+/* Descripción */
+.detalle-producto .detalle-info p {
+  color: #5a4635;
+  line-height: 1.5;
+  margin-bottom: 12px;
+}
+
+/* Medidas */
+.detalle-producto .detalle-info b {
+  color: #A0522D;
+}
+
+/* Contenedor de botones */
+.detalle-producto .botones {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+  margin-top: 20px;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .detalle-producto {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  .detalle-producto .detalle-info {
+    align-items: center;
+  }
+
+  .detalle-producto .botones {
+    justify-content: center;
+  }
+
+  .detalle-producto .detalle-imagen img {
+    max-width: 90%;
+  }
 }

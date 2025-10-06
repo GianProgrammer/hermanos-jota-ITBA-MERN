@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import "../styles/producto.css"; // 👈 importa el CSS
+import "../styles/producto.css";
 
 function ListaProductos({ titulo, limite }) {
   const [productos, setProductos] = useState([]);
@@ -35,10 +35,9 @@ function ListaProductos({ titulo, limite }) {
   const productosAMostrar = productosFiltrados.slice(0, visible);
 
   return (
-    <section className="prod-dest">
+    <section className="lista-productos">
       {titulo && <h2 className="titulo-seccion">{titulo}</h2>}
 
-      {/* 🔍 Buscador: solo visible en página Productos */}
       {!limite && (
         <div className="contenedor-busqueda">
           <input
@@ -54,7 +53,6 @@ function ListaProductos({ titulo, limite }) {
         </div>
       )}
 
-      {/* 🛍️ Grid de productos */}
       <div className="grid-productos">
         {productosAMostrar.map((prod) => (
           <div key={prod.id} className="card">
@@ -71,7 +69,6 @@ function ListaProductos({ titulo, limite }) {
         ))}
       </div>
 
-      {/* 🔁 Botón “Cargar más” */}
       {!limite && visible < productosFiltrados.length && (
         <div className="contenedor-cargar-mas">
           <button className="btn" onClick={() => setVisible(visible + 6)}>
@@ -84,5 +81,6 @@ function ListaProductos({ titulo, limite }) {
 }
 
 export default ListaProductos;
+
 
 

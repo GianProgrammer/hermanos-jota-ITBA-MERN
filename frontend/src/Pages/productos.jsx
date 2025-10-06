@@ -1,10 +1,11 @@
-import productos from "../../../backend/productos";
+// src/Pages/Productos.jsx
 import ListaProductos from "../components/Listaproductos";
+import "../styles/producto.css";
 
 function Productos() {
   return (
-    <main id="productos-page">
-      <ListaProductos productos={productos} titulo="Nuestros Productos" />
+    <main className="productos-container">
+      <ListaProductos titulo="Nuestros Productos" />
     </main>
   );
 }
