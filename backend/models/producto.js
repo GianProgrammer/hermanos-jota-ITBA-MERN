@@ -1,6 +1,7 @@
 import mongoose from "mongoose";
 
 const productoSchema = new mongoose.Schema({
+  id: { type: String, required: true, unique: true },
   ruta: { type: String, required: true },
   nombre: { type: String, required: true },
   descripcion: { type: String, required: true },
