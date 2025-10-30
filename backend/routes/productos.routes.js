@@ -38,6 +38,20 @@ router.post("/", async (req, res) => {
   }
 });
 
+// actualizar un producto
+router.put("/:id", async (req, res) => {
+  try {
+    const productoActualizado = await Producto.findByIdAndUpdate(req.params.id, req.body, { new: true });
+    if (productoActualizado) {
+      res.json(productoActualizado);
+    } else {
+      res.status(404).json({ error: "Producto no encontrado" });
+    }
+  } catch (error) {
+    res.status(400).json({ error: "Error al actualizar el producto" });
+  }
+});
+
 // eliminar un producto
 router.delete("/:id", async (req, res) => {
   try {
