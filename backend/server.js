@@ -3,7 +3,7 @@ import cors from "cors";
 import dotenv from "dotenv";
 import mongoose from "mongoose";
 import productosRouter from "./routes/productos.routes.js";
-import contacto from "./routes/contacto.routes.js"; // ✅ NUEVO
+import contacto from "./routes/contacto.routes.js"; 
 
 dotenv.config()
 const app = express();
@@ -20,7 +20,7 @@ app.use((req, res, next) => {
 
 // Rutas principales
 app.use("/api/productos", productosRouter);
-app.use("/api/contacto", contacto); // ✅ NUEVO
+app.use("/api/contacto", contacto); 
 
 // Middleware 404
 app.use((req, res) => {
@@ -29,7 +29,7 @@ app.use((req, res) => {
 
 // Middleware de error global
 app.use((err, req, res, next) => {
-  console.error("💥 Error interno:", err.message);
+  console.error("Error interno:", err.message);
   res.status(500).json({ error: "Error interno del servidor" });
 });
 
