@@ -1,8 +1,11 @@
 import express from "express";
 import cors from "cors";
+import dotenv from "dotenv";
+import mongoose from "mongoose";
 import productosRouter from "./routes/productos.routes.js";
 import contacto from "./routes/contacto.routes.js"; // ✅ NUEVO
 
+dotenv.config()
 const app = express();
 const PORT = 5000;
 
@@ -30,7 +33,9 @@ app.use((err, req, res, next) => {
   res.status(500).json({ error: "Error interno del servidor" });
 });
 
-// Servidor
-app.listen(PORT, () => {
-  console.log(`Servidor backend en http://localhost:${PORT}`);
-});
+mongoose.connect(process.env.DB_URI)
+.then(() => {
+  console.log("Conectado a MongoDB");
+  app.listen(PORT, () => console.log(`Servidor en http://localhost:${PORT}`));
+})
+.catch((err) => console.error("Error al conectar a MongoDB:", err));
