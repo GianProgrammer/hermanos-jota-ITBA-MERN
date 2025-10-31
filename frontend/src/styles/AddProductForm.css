@@ -1,95 +1,143 @@
 /* =========================================================
    📄 CREAR PRODUCTO (Formulario Admin)
-   Basado en la estética de Productos/Detalle/Home
-   ========================================================= */
-/* =========================================================
-   Crear Producto - Full width + Flex layout
-   (colocar al final para sobrescribir lo anterior)
+   Limpieza visual, grid 2 columnas en desktop, 1 en mobile
    ========================================================= */
 
-/* que el contenedor use todo el ancho disponible */
+/* ===== Reset mínimo ===== */
+.form-wrap *, .form-wrap *::before, .form-wrap *::after { box-sizing: border-box; }
+.form-wrap input, .form-wrap textarea, .form-wrap select { width: 100%; }
+
+/* ===== Contenedor ===== */
 .form-wrap{
-  max-width: none;         /* quita el límite */
   width: 100%;
-  margin: 0;               /* sin márgenes laterales */
-  padding: 24px 16px 80px; /* respiro general */
+  margin: 0;
+  padding: 32px 16px 80px;
 }
 
-/* la tarjeta ahora “full width” pero con límite visual en desktop */
 .form-wrap .card{
   width: 100%;
-  max-width: 1280px;       /* límite visual cómodo en desktop grande */
-  margin: 0 auto;          /* centra la tarjeta */
-  padding: clamp(20px, 2.2vw, 36px);
+  max-width: 1200px;              /* límite cómodo desktop */
+  margin: 0 auto;
+  padding: clamp(22px, 2.2vw, 36px);
   border-radius: 18px;
   box-shadow: 0 16px 36px rgba(0,0,0,.08);
+  background: var(--color-bg, #fff);
 }
 
-/* header un toque más grande */
 .form-header h1{
   font-size: clamp(28px, 3.2vw, 42px);
+  color: var(--color-title, #4a2e16);
+  margin: 0 0 8px;
 }
+
 .hr{
-  background: rgba(160, 82, 45, 0.12);
-  margin: 16px 0 22px;
+  height: 1px;
+  background: rgba(160,82,45,.12);
+  margin: 12px 0 24px;
+  border: 0;
 }
 
-/* ====== FLEX LAYOUT ====== */
-/* cambia de grid a flex en el form */
+/* ===== Grid del formulario ===== */
 .form-grid{
-  display: flex;
-  flex-wrap: wrap;
-  gap: 16px 22px;            /* row-gap / column-gap */
+  display: grid;
+  grid-template-columns: 1fr;     /* mobile: 1 columna */
+  gap: 18px 24px;                  /* row / column gap */
 }
 
-/* cada “campo” ocupa 100% en mobile y ~50% en desktop */
-.form-grid > div{
-  flex: 1 1 420px;           /* base 420px, crece hasta 50% aprox */
-  min-width: 280px;          /* no se achica demasiado */
+/* Desktop: 2 columnas */
+@media (min-width: 900px){
+  .form-grid{
+    grid-template-columns: 1fr 1fr;
+    align-items: start;
+  }
 }
 
-/* los que deben ir a todo el ancho */
+/* Filas/bloques completos (ocupan ambas columnas) */
 .form-row-full{
-  flex: 1 1 100%;
-  min-width: 100%;
+  grid-column: 1 / -1;
 }
 
-/* inputs / textareas un pelín más cómodos */
-.input, .textarea{
+/* ===== Campos ===== */
+.form-grid .field{
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.form-grid label{
+  font-size: 0.95rem;
+  color: var(--color-text, #5a4635);
+  font-weight: 600;
+}
+
+/* Inputs y textareas uniformes */
+.input, .textarea,
+.form-grid input, .form-grid textarea, .form-grid select{
+  display: block;
+  width: 100%;
   padding: 12px 14px;
+  border: 1.5px solid rgba(0,0,0,.12);
   border-radius: 12px;
+  background: #fff;
+  color: #333;
+  line-height: 1.3;
+  outline: none;
+  transition: border-color .15s ease, box-shadow .15s ease, background .15s ease;
 }
 
-/* quita las flechitas del number y mejora tipado */
-.input[type="number"]::-webkit-outer-spin-button,
-.input[type="number"]::-webkit-inner-spin-button{ -webkit-appearance:none; margin:0; }
-.input[type="number"]{ -moz-appearance:textfield; }
+.input:focus, .textarea:focus,
+.form-grid input:focus, .form-grid textarea:focus, .form-grid select:focus{
+  border-color: rgba(160,82,45,.55);           /* usa tu --color-main si querés */
+  box-shadow: 0 0 0 3px rgba(160,82,45,.12);
+}
 
-/* zona de acciones con alineación flexible */
+/* Textarea tamaño cómodo */
+.textarea, .form-grid textarea{
+  min-height: 110px;
+  resize: vertical;
+}
+
+/* Number: sin flechas */
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button{ -webkit-appearance: none; margin: 0; }
+input[type="number"]{ -moz-appearance: textfield; }
+
+/* Placeholders suaves */
+::placeholder{ color: rgba(0,0,0,.45); }
+
+/* ===== Zona de acciones ===== */
 .actions{
   display: flex;
-  justify-content: flex-start; /* cambia a center o space-between si querés */
   gap: 12px;
-  margin-top: 10px;
+  margin-top: 8px;
+  grid-column: 1 / -1;             /* siempre al ancho completo */
 }
+
 .actions .btn{
   padding: 12px 20px;
   border-radius: 26px;
   font-weight: 600;
+  background: var(--color-main, #A0522D);
+  color: #fff;
+  border: none;
+  cursor: pointer;
+  box-shadow: var(--shadow, 0 6px 20px rgba(0,0,0,0.06));
+  transition: transform .05s ease, filter .15s ease;
 }
 
-/* mensajes cortitos y sin saltos grandes */
+.actions .btn:hover{ filter: brightness(1.05); }
+.actions .btn:active{ transform: translateY(1px); }
+
+/* Mobile: botones en columna y 100% */
+@media (max-width: 720px){
+  .actions{ flex-direction: column; }
+  .actions .btn{ width: 100%; }
+}
+
+/* Mensajes bajo inputs */
 .info, .error{
   margin-top: 4px;
-  line-height: 1.2;
+  font-size: .9rem;
+  line-height: 1.25;
 }
-
-/* ====== RESPONSIVE ====== */
-/* en pantallas muy chicas, todo a una columna */
-@media (max-width: 720px){
-  .form-grid > div{ flex: 1 1 100%; min-width: 100%; }
-  .actions{ justify-content: stretch; }
-  .actions .btn{ width: 100%; } /* CTA ancho completo en mobile */
-}
-
-
+.error{ color: #b00020; }
