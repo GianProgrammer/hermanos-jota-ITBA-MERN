@@ -4,6 +4,7 @@ import dotenv from "dotenv";
 import mongoose from "mongoose";
 import productosRouter from "./routes/productos.routes.js";
 import contacto from "./routes/contacto.routes.js"; 
+import Producto from "./models/producto.js";
 
 dotenv.config()
 const app = express();
@@ -39,3 +40,6 @@ mongoose.connect(process.env.DB_URI)
   app.listen(PORT, () => console.log(`Servidor en http://localhost:${PORT}`));
 })
 .catch((err) => console.error("Error al conectar a MongoDB:", err));
+
+
+await Producto.syncIndexes();

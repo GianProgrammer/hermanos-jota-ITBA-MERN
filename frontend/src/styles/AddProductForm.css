@@ -1,0 +1,95 @@
+/* =========================================================
+   📄 CREAR PRODUCTO (Formulario Admin)
+   Basado en la estética de Productos/Detalle/Home
+   ========================================================= */
+/* =========================================================
+   Crear Producto - Full width + Flex layout
+   (colocar al final para sobrescribir lo anterior)
+   ========================================================= */
+
+/* que el contenedor use todo el ancho disponible */
+.form-wrap{
+  max-width: none;         /* quita el límite */
+  width: 100%;
+  margin: 0;               /* sin márgenes laterales */
+  padding: 24px 16px 80px; /* respiro general */
+}
+
+/* la tarjeta ahora “full width” pero con límite visual en desktop */
+.form-wrap .card{
+  width: 100%;
+  max-width: 1280px;       /* límite visual cómodo en desktop grande */
+  margin: 0 auto;          /* centra la tarjeta */
+  padding: clamp(20px, 2.2vw, 36px);
+  border-radius: 18px;
+  box-shadow: 0 16px 36px rgba(0,0,0,.08);
+}
+
+/* header un toque más grande */
+.form-header h1{
+  font-size: clamp(28px, 3.2vw, 42px);
+}
+.hr{
+  background: rgba(160, 82, 45, 0.12);
+  margin: 16px 0 22px;
+}
+
+/* ====== FLEX LAYOUT ====== */
+/* cambia de grid a flex en el form */
+.form-grid{
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px 22px;            /* row-gap / column-gap */
+}
+
+/* cada “campo” ocupa 100% en mobile y ~50% en desktop */
+.form-grid > div{
+  flex: 1 1 420px;           /* base 420px, crece hasta 50% aprox */
+  min-width: 280px;          /* no se achica demasiado */
+}
+
+/* los que deben ir a todo el ancho */
+.form-row-full{
+  flex: 1 1 100%;
+  min-width: 100%;
+}
+
+/* inputs / textareas un pelín más cómodos */
+.input, .textarea{
+  padding: 12px 14px;
+  border-radius: 12px;
+}
+
+/* quita las flechitas del number y mejora tipado */
+.input[type="number"]::-webkit-outer-spin-button,
+.input[type="number"]::-webkit-inner-spin-button{ -webkit-appearance:none; margin:0; }
+.input[type="number"]{ -moz-appearance:textfield; }
+
+/* zona de acciones con alineación flexible */
+.actions{
+  display: flex;
+  justify-content: flex-start; /* cambia a center o space-between si querés */
+  gap: 12px;
+  margin-top: 10px;
+}
+.actions .btn{
+  padding: 12px 20px;
+  border-radius: 26px;
+  font-weight: 600;
+}
+
+/* mensajes cortitos y sin saltos grandes */
+.info, .error{
+  margin-top: 4px;
+  line-height: 1.2;
+}
+
+/* ====== RESPONSIVE ====== */
+/* en pantallas muy chicas, todo a una columna */
+@media (max-width: 720px){
+  .form-grid > div{ flex: 1 1 100%; min-width: 100%; }
+  .actions{ justify-content: stretch; }
+  .actions .btn{ width: 100%; } /* CTA ancho completo en mobile */
+}
+
+

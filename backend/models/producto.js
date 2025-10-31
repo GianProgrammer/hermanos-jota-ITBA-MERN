@@ -1,10 +1,10 @@
+// src/models/producto.js
 import mongoose from "mongoose";
 
 const productoSchema = new mongoose.Schema({
-  id: { type: String, required: true, unique: true },
-  ruta: { type: String, required: true },
-  nombre: { type: String, required: true },
-  descripcion: { type: String, required: true },
+  ruta: { type: String, required: true, trim: true },
+  nombre: { type: String, required: true, trim: true, unique: true }, 
+  descripcion: { type: String, required: true, trim: true },
   medidas: { type: String },
   materiales: { type: String },
   acabado: { type: String },
@@ -27,9 +27,10 @@ const productoSchema = new mongoose.Schema({
   cables: { type: String },
   regulacion: { type: String },
   certificacion: { type: String },
-  precio: { type: Number, required: true },
+  precio: { type: Number, required: true, min: 0 },
 }, { timestamps: true });
 
-const Producto = mongoose.model("Producto", productoSchema);
 
+const Producto = mongoose.model("Producto", productoSchema);
 export default Producto;
+
