@@ -1,6 +1,6 @@
-# NEXUS - Catálogo de Productos  
+# NEXUS - Catálogo de Productos
 
-## 📌 Integrantes  
+## 📌 Integrantes
 - Nahuel Gemignani
 - Gonzalez Alex
 - Robles Francisco
@@ -9,96 +9,104 @@
 
 ---
 
-## Descripción del Proyecto  
-**NEXUS** es una aplicación web que consiste en:  
+## Descripción del Proyecto
+**NEXUS** es una aplicación web full stack que consiste en:
 
-- **Backend (API con Express.js):** Provee endpoints para listar productos y obtener detalles por ID, con un middleware de logging y manejo centralizado de errores.  
-- **Frontend (con React):** Interfaz de usuario que consume la API del backend para mostrar un catálogo de productos, detalle de cada uno, carrito de compras y un formulario de contacto controlado.  
+- **Backend (API con Express.js):** Provee endpoints para listar, crear, actualizar y eliminar productos, conectándose a una base de datos **MongoDB Atlas**. Implementa logging de peticiones y manejo centralizado de errores.
+- **Frontend (React):** Interfaz de usuario que consume la API del backend para:
+  - Mostrar un catálogo de productos.
+  - Ver el detalle de cada producto en páginas dinámicas (`/productos/:id`).
+  - Crear, editar y eliminar productos mediante formularios controlados.
+  - Navegar con rutas definidas y navegación programática usando `useNavigate`.
+  - Gestionar estados de carga y errores en las peticiones.
 
-Este proyecto corresponde a las consignas finales de **Sprint 3 y 4**.  
+Este proyecto corresponde a las consignas finales de **Sprint 5 y 6**, donde se implementa persistencia real de datos y operaciones CRUD completas.
 
 ---
 
-## 📂 Estructura del Repositorio  
+## 📂 Estructura del Repositorio
 ```
-/backend   -> Servidor con Express.js
-/client    -> Aplicación frontend con React
+/backend   -> Servidor Express.js con API y conexión a MongoDB
+/frontend    -> Aplicación frontend en React
 ```
 
 ---
 
-## Requisitos  
+## Requisitos
 
-### Backend (Express.js)  
-- Servidor en Express.  
-- Fuente de datos en archivo local `.js` (array de objetos).  
-- Endpoints:  
-  - `GET /api/productos` → Devuelve todos los productos.  
-  - `GET /api/productos/:id` → Devuelve un producto por su ID o 404 si no existe.
-  - `POST /api/contacto` → Recibe los datos del formulario de contacto y envía un correo automático mediante Nodemailer.
-- Middleware:  
-  - `express.json()` para procesar JSON.  
-  - Middleware global de logging (método + URL).  
-- Rutas organizadas con `express.Router`.  
-- Manejo de errores centralizado y rutas no encontradas (404).  
+### Backend (Express.js + MongoDB)
+- Servidor en Express conectado a **MongoDB Atlas** mediante Mongoose.
+- Variables sensibles (URI de MongoDB) almacenadas en `.env`.
+- Endpoints CRUD para productos:
+  - `GET /api/productos` → Devuelve todos los productos.
+  - `GET /api/productos/:id` → Devuelve un producto.
+  - `POST /api/productos` → Crea un nuevo producto.
+  - `PUT /api/productos/:id` → Actualiza un producto existente por su `_id`.
+  - `DELETE /api/productos/:id` → Elimina un producto.
+- Middleware global para logging y manejo de errores.
 
-### Frontend (React)  
-- Arquitectura de componentes reutilizables (`Navbar`, `Footer`, `ProductCard`, `ProductList`, `ProductDetail`, `ContactForm`, etc.).  
-- Página de catálogo con estados `Cargando...` y `Error`.  
-- Renderizado dinámico de productos con `.map()`.  
-- Vista de detalle de producto con renderizado condicional.  
-- Carrito de compras manejado desde `App.js`.  
-- Formulario de contacto controlado con `useState`.  
+### Frontend (React)
+- Rutas definidas con React Router DOM:
+  - `/` → Página de inicio.
+  - `/productos` → Catálogo de productos.
+  - `/productos/:id` → Detalle de producto (dinámico).
+  - `/contacto` → Formulario de contacto.
+  - `/admin/crear-producto` → Formulario de creación de productos.
+- Consumo de API mediante `fetch` para operaciones CRUD.
+- Formularios controlados para crear y editar productos.
+- Navegación programática usando `useNavigate` tras acciones del usuario.
+- Funcionalidad de eliminación con confirmación (`window.confirm`) y redirección al catálogo.
 
 ---
 
-## Instalación y Uso  
+## Instalación y Uso
 
-Clonar este repositorio:  
+Clonar este repositorio:
 ```bash
 git clone <URL_DEL_REPOSITORIO>
 cd <NOMBRE_DEL_REPO>
 ```
 
-### Backend  
+### Backend
 ```bash
 cd backend
 npm install
-npm install nodemailer dotenv
-nodemon server.js
+node server.js
 ```
-El servidor se levantará en:  
+El servidor se levantará en:
 ```
 http://localhost:5000
 ```
 
-### Frontend  
+### Frontend
 ```bash
 cd client
 npm install
 npm run dev
 ```
-La aplicación React se levantará en:  
+La aplicación React se levantará en:
 ```
 http://localhost:5173
 ```
 
 ---
 
-## Arquitectura y Decisiones  
+## Arquitectura y Decisiones
 
-- Se utilizó **Express.js** sin base de datos, con un archivo local.  
-- Las rutas del backend se modularizaron usando `express.Router` para mantener el código limpio y escalable.  
-- Se agregó un **middleware global de logging** para seguimiento de peticiones.  
-- En el frontend, se optó por **React**, descomponiendo la interfaz en componentes reutilizables para mayor mantenibilidad.  
-- El detalle de producto se implementó con renderizado condicional (sin React Router, según consigna).
-- El carrito se maneja como estado global en `App.js`, propagando la información mediante props a `Navbar` y `ProductDetail`.  
-- El formulario de contacto del frontend envía los datos al endpoint /api/contacto. El backend procesa la solicitud y, utilizando Nodemailer junto con credenciales seguras almacenadas en un archivo .env, envía automáticamente un correo a la cuenta configurada. El envío se realiza mediante una App Password de Gmail para garantizar la autenticación y seguridad del sistema.
+- **Backend:** Express.js + MongoDB con Mongoose, modularizado con `express.Router`.
+- **Frontend:** React con componentes reutilizables (`Navbar`, `Footer`, `ProductList`, `ProductDetail`, `ProductForm`).
+- El detalle de producto se implementa con **rutas dinámicas** y `useParams`.
+- Creación y edición de productos manejadas con **formularios controlados** y validación básica.
+- Navegación programática para mejorar la experiencia del usuario.
+- Operaciones CRUD totalmente funcionales y persistentes en MongoDB.
+- Manejo de errores y estados de carga en todas las peticiones.
 
 ---
 
-## Entregables  
-- Carpeta `/backend` con API en Express.js.  
-- Carpeta `/frontend` con aplicación en React.  
-- Historial de commits reflejando la participación de todos los integrantes.  
-- Archivo `README.md` con documentación completa del proyecto.  
+## Entregables
+- Carpeta `/backend` con API en Express.js y conexión a MongoDB.
+- Carpeta `/frontend` con aplicación en React consumiendo la API.
+- Historial de commits reflejando la participación de todos los integrantes.
+- Archivo `README.md` actualizado con documentación completa y enlaces a los despliegues:
+  - Frontend: Vercel / Netlify
+  - Backend: Render
