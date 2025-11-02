@@ -17,7 +17,7 @@ function Carrito({ carrito, setCarrito, addToCarrito }) {
 
   // --- Cargar productos del backend ---
   useEffect(() => {
-    fetch("http://localhost:5000/api/productos")
+    fetch("https://hermanos-jota-itba-mern.onrender.com/api/productos")
       .then((res) => res.json())
       .then((data) => setProductos(data))
       .catch((err) => console.error("Error al cargar productos:", err));
