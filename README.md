@@ -108,5 +108,5 @@ http://localhost:5173
 - Carpeta `/frontend` con aplicación en React consumiendo la API.
 - Historial de commits reflejando la participación de todos los integrantes.
 - Archivo `README.md` actualizado con documentación completa y enlaces a los despliegues:
-  - Frontend: Vercel / Netlify
-  - Backend: Render
+  - Frontend desplegado: [Ver Frontend en Vercel](https://hermanos-jota-itba-mern.vercel.app/)
+  - Backend desplegado: [Ver Backend en Render](https://hermanos-jota-itba-mern.onrender.com)
