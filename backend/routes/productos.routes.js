@@ -35,16 +35,18 @@ router.get("/", async (req, res) => {
   }
 });
 
-// producto individual
+
+// obtener un producto por id (UUID)
 router.get("/:id", async (req, res) => {
   try {
-    const producto = await Producto.findById(req.params.id);
+    const producto = await Producto.findOne({ id: req.params.id });
     if (producto) {
       res.json(producto);
     } else {
       res.status(404).json({ error: "Producto no encontrado" });
     }
   } catch (error) {
+    console.error(error);
     res.status(400).json({ error: "ID inválido" });
   }
 });
