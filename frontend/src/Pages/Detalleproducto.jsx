@@ -29,7 +29,7 @@ function DetalleProducto({ addToCarrito }) {
     if (!confirm) return;
 
     try {
-      const res = await fetch(`/api/productos/${id}`, { method: "DELETE" });
+      const res = await fetch(`${API_BASE}/${id}`, { method: "DELETE" });
       if (res.ok) {
         alert("Producto eliminado correctamente");
         navigate("/productos"); // Redirige al catálogo
