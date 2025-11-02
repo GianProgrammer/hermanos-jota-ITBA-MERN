@@ -24,9 +24,6 @@ function NavBar({ carritoCount }) {
               🛒 Carrito ({carritoCount})
             </Link>
           </li>
-          <li>
-            <Link to="/admin/crear-producto">Crear producto</Link>
-          </li>
         </ul>
       </nav>
     </header>
