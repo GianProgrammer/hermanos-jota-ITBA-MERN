@@ -2,6 +2,8 @@ import { useParams, Link, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import "../styles/producto.css";
 
+const API_BASE = "https://hermanos-jota-itba-mern.onrender.com/api/productos";
+
 function DetalleProducto({ addToCarrito }) {
   const { id } = useParams();
   const navigate = useNavigate();
@@ -10,7 +12,7 @@ function DetalleProducto({ addToCarrito }) {
 
   useEffect(() => {
     // Traer el producto desde el backend
-    fetch(`/api/productos/${id}`)
+    fetch(`${API_BASE}/${id}`)
       .then(res => res.json())
       .then(data => {
         setProducto(data);
