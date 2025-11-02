@@ -4,7 +4,7 @@ import "../styles/AddProductForm.css";
 import { useNavigate } from "react-router-dom";
 
 // --- API base (mismo patrón que tu ejemplo) ---
-const API_BASE = "http://localhost:5000/api";
+const API_BASE = "https://hermanos-jota-itba-mern.onrender.com/api";
 
 // --- Helper: verificación de nombre de producto (unicidad) ---
 async function checkNombreExists(nombre) {
