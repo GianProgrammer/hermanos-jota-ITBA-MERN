@@ -100,16 +100,17 @@ router.put("/:id", async (req, res) => {
   }
 });
 
-// eliminar un producto
+// eliminar un producto por id (UUID)
 router.delete("/:id", async (req, res) => {
   try {
-    const eliminado = await Producto.findByIdAndDelete(req.params.id);
+    const eliminado = await Producto.findOneAndDelete({ id: req.params.id });
     if (eliminado) {
       res.json({ mensaje: "Producto eliminado correctamente" });
     } else {
       res.status(404).json({ error: "Producto no encontrado" });
     }
   } catch (error) {
+    console.error(error);
     res.status(400).json({ error: "Error al eliminar el producto" });
   }
 });
