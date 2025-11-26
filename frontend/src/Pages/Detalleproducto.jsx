@@ -1,14 +1,49 @@
-import { useParams, Link } from "react-router-dom";
-import productos from "../../../backend/productos";
+import { useParams, Link, useNavigate } from "react-router-dom";
+import { useState, useEffect } from "react";
 import "../styles/producto.css";
+
+const API_BASE = "https://hermanos-jota-itba-mern.onrender.com/api/productos";
 
 function DetalleProducto({ addToCarrito }) {
   const { id } = useParams();
-  const producto = productos.find((p) => p.id === parseInt(id));
+  const navigate = useNavigate();
+  const [producto, setProducto] = useState(null);
+  const [loading, setLoading] = useState(true);
 
-  if (!producto) {
-    return <p style={{ textAlign: "center", marginTop: "50px" }}>Producto no encontrado</p>;
-  }
+  useEffect(() => {
+    // Traer el producto desde el backend
+    fetch(`${API_BASE}/${id}`)
+      .then(res => res.json())
+      .then(data => {
+        setProducto(data);
+        setLoading(false);
+      })
+      .catch(err => {
+        console.error(err);
+        setLoading(false);
+      });
+  }, [id]);
+
+  const handleEliminar = async () => {
+    const confirm = window.confirm("¿Estás seguro que quieres eliminar este producto?");
+    if (!confirm) return;
+
+    try {
+      const res = await fetch(`${API_BASE}/${id}`, { method: "DELETE" });
+      if (res.ok) {
+        alert("Producto eliminado correctamente");
+        navigate("/productos"); // Redirige al catálogo
+      } else {
+        alert("Error al eliminar el producto");
+      }
+    } catch (error) {
+      console.error(error);
+      alert("Error al eliminar el producto");
+    }
+  };
+
+  if (loading) return <p style={{ textAlign: "center", marginTop: "50px" }}>Cargando...</p>;
+  if (!producto) return <p style={{ textAlign: "center", marginTop: "50px" }}>Producto no encontrado</p>;
 
   return (
     <main className="detalle-producto">
@@ -25,6 +60,11 @@ function DetalleProducto({ addToCarrito }) {
           <button className="btn" onClick={() => addToCarrito(producto)}>
             🛒 Añadir al Carrito
           </button>
+
+          <button className="btn-eliminar" onClick={handleEliminar}>
+            🗑 Eliminar
+          </button>
+
           <Link to="/productos" className="btn-volver">
             ⬅ Volver a Productos
           </Link>
@@ -35,6 +75,3 @@ function DetalleProducto({ addToCarrito }) {
 }
 
 export default DetalleProducto;
-
-
-

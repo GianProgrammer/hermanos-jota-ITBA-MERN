@@ -1,12 +1,12 @@
-// src/pages/admin/CrearProducto.jsx
+/* eslint-disable react-hooks/exhaustive-deps */
 import { useState, useEffect } from "react";
 import "../styles/AddProductForm.css";
 import { useNavigate } from "react-router-dom";
 
-// --- API base (mismo patrón que tu ejemplo) ---
-const API_BASE = "http://localhost:5000/api";
+// --- API base ---
+const API_BASE = "https://hermanos-jota-itba-mern.onrender.com/api";
 
-// --- Helper: verificación de nombre de producto (unicidad) ---
+// --- Helper: verificación de nombre de producto ---
 async function checkNombreExists(nombre) {
   const resp = await fetch(`${API_BASE}/productos/check-nombre`, {
     method: "POST",
@@ -19,16 +19,15 @@ async function checkNombreExists(nombre) {
     try {
       const data = await resp.json();
       msg = data?.error || msg;
-    } catch {
-      // si el backend devolvió HTML u otro formato
+    } catch (error) {
+      console.warn('Error parsing response:', error);
     }
     throw new Error(msg);
   }
-  // Se espera { exists:false } o { exists:true }
   return resp.json();
 }
 
-// --- Estado inicial, alineado con tu "base" de productos ---
+// --- Estado inicial ---
 const initialFormData = {
   ruta: "",
   nombre: "",
@@ -36,8 +35,7 @@ const initialFormData = {
   medidas: "",
   materiales: "",
   acabado: "",
-  precio: "",        // lo casteamos a número al enviar
-  // Opcionales según tu base: peso, capacidad, etc.
+  precio: "",
 };
 
 export default function CrearProducto() {
@@ -80,35 +78,26 @@ export default function CrearProducto() {
     return () => clearTimeout(id);
   }, [formData.nombre]);
 
+  // --- Submit ---
   const handleSubmit = async (e) => {
     e.preventDefault();
     setSubmitMsg("");
 
-    // Validaciones rápidas de front
-    if (!formData.nombre.trim()) {
-      setSubmitMsg("Ingresá un nombre de producto.");
-      return;
-    }
-    if (!formData.descripcion.trim()) {
-      setSubmitMsg("Ingresá una descripción.");
-      return;
-    }
-    if (!formData.ruta.trim()) {
-      setSubmitMsg("Ingresá la ruta/URL de imagen.");
-      return;
-    }
-    if (checkingNombre || nombreError) {
-      setSubmitMsg("Revisá el nombre antes de guardar.");
-      return;
-    }
+    // Validaciones rápidas
+    if (!formData.nombre.trim()) return setSubmitMsg("Ingresá un nombre de producto.");
+    if (!formData.descripcion.trim()) return setSubmitMsg("Ingresá una descripción.");
+    if (!formData.ruta.trim()) return setSubmitMsg("Ingresá la ruta/URL de imagen.");
+    if (checkingNombre || nombreError) return setSubmitMsg("Revisá el nombre antes de guardar.");
+
     const precioNumber = Number(formData.precio);
-    if (!precioNumber || precioNumber <= 0) {
-      setSubmitMsg("Ingresá un precio válido (> 0).");
-      return;
-    }
+    if (!precioNumber || precioNumber <= 0) return setSubmitMsg("Ingresá un precio válido (> 0).");
 
     try {
+      // ✅ Generar ID único antes de enviar
+      const id = crypto.randomUUID(); // o `Date.now().toString()`
+
       const payload = {
+        id,
         ...formData,
         precio: precioNumber,
       };
@@ -124,189 +113,165 @@ export default function CrearProducto() {
         try {
           const data = await resp.json();
           msg = data?.error || msg;
-        } catch (parseErr) {
-          // Si la respuesta no es JSON válido o hubo un error al parsear, mantenemos el mensaje por defecto
-          console.warn("No se pudo parsear la respuesta de error:", parseErr);
+        } catch (err) {
+          console.warn("No se pudo parsear la respuesta:", err);
         }
         throw new Error(msg);
       }
 
-      // OK
       setFormData(initialFormData);
       setNombreError("");
       setSubmitMsg("✅ Producto creado con éxito");
-      // Redirige al catálogo
       navigate("/productos");
     } catch (e) {
       setSubmitMsg(`❌ ${e.message}`);
     }
   };
-return (
-  <div className="crear-producto-bg">
-    <div className="form-wrap">
-      <div className="card">
-        <div className="form-header">
-          <h1>Crear Producto</h1>
-          <div className="subtitle">
-            Completá los campos para añadir un nuevo producto
+
+  return (
+    <div className="crear-producto-bg">
+      <div className="form-wrap">
+        <div className="card">
+          <div className="form-header">
+            <h1>Crear Producto</h1>
+            <div className="subtitle">Completá los campos para añadir un nuevo producto</div>
           </div>
+
+          <div className="hr" />
+
+          <form onSubmit={handleSubmit} noValidate>
+            <div className="form-grid">
+              {/* Nombre */}
+              <div>
+                <label htmlFor="nombre">Nombre *</label>
+                <input
+                  className="input"
+                  type="text"
+                  id="nombre"
+                  name="nombre"
+                  placeholder="Ej: Mesa de Centro Araucaria"
+                  required
+                  value={formData.nombre}
+                  onChange={(e) => setFormData({ ...formData, nombre: e.target.value })}
+                  aria-invalid={!!nombreError}
+                  aria-describedby="nombreHelp nombreError"
+                />
+                {checkingNombre && !nombreError && (
+                  <span id="nombreHelp" className="info" aria-live="polite">
+                    Verificando nombre…
+                  </span>
+                )}
+                {nombreError && (
+                  <span id="nombreError" className="error" aria-live="polite">
+                    {nombreError}
+                  </span>
+                )}
+              </div>
+
+              {/* Precio */}
+              <div>
+                <label htmlFor="precio">Precio (AR$) *</label>
+                <input
+                  className="input"
+                  type="number"
+                  id="precio"
+                  name="precio"
+                  min="0"
+                  step="1"
+                  placeholder="250000"
+                  required
+                  value={formData.precio}
+                  onChange={(e) => setFormData({ ...formData, precio: e.target.value })}
+                  onWheel={(e) => e.currentTarget.blur()}
+                />
+              </div>
+
+              {/* Ruta */}
+              <div className="form-row-full">
+                <label htmlFor="ruta">Ruta / URL de imagen *</label>
+                <input
+                  className="input"
+                  type="text"
+                  id="ruta"
+                  name="ruta"
+                  placeholder="/img/MiProducto.png o https://..."
+                  required
+                  value={formData.ruta}
+                  onChange={(e) => setFormData({ ...formData, ruta: e.target.value })}
+                />
+              </div>
+
+              {/* Descripción */}
+              <div className="form-row-full">
+                <label htmlFor="descripcion">Descripción *</label>
+                <textarea
+                  className="textarea"
+                  id="descripcion"
+                  name="descripcion"
+                  placeholder="Detalles del producto, materiales, uso, etc."
+                  required
+                  value={formData.descripcion}
+                  onChange={(e) => setFormData({ ...formData, descripcion: e.target.value })}
+                />
+              </div>
+
+              {/* Medidas */}
+              <div>
+                <label htmlFor="medidas">Medidas</label>
+                <input
+                  className="input"
+                  type="text"
+                  id="medidas"
+                  name="medidas"
+                  placeholder="Ej: 180 x 45 x 75 cm"
+                  value={formData.medidas}
+                  onChange={(e) => setFormData({ ...formData, medidas: e.target.value })}
+                />
+              </div>
+
+              {/* Materiales */}
+              <div>
+                <label htmlFor="materiales">Materiales</label>
+                <input
+                  className="input"
+                  type="text"
+                  id="materiales"
+                  name="materiales"
+                  placeholder="Nogal macizo, acero, etc."
+                  value={formData.materiales}
+                  onChange={(e) => setFormData({ ...formData, materiales: e.target.value })}
+                />
+              </div>
+
+              {/* Acabado */}
+              <div>
+                <label htmlFor="acabado">Acabado</label>
+                <input
+                  className="input"
+                  type="text"
+                  id="acabado"
+                  name="acabado"
+                  placeholder="Aceite natural, laca mate…"
+                  value={formData.acabado}
+                  onChange={(e) => setFormData({ ...formData, acabado: e.target.value })}
+                />
+              </div>
+            </div>
+
+            <div className="actions">
+              <button className="btn" type="submit" disabled={!!nombreError || checkingNombre}>
+                Crear Producto
+              </button>
+            </div>
+
+            {submitMsg && (
+              <div className="submit-msg" aria-live="polite">
+                {submitMsg}
+              </div>
+            )}
+          </form>
         </div>
-
-        <div className="hr" />
-
-        <form onSubmit={handleSubmit} noValidate>
-          <div className="form-grid">
-            {/* Nombre */}
-            <div>
-              <label htmlFor="nombre">Nombre *</label>
-              <input
-                className="input"
-                type="text"
-                id="nombre"
-                name="nombre"
-                placeholder="Ej: Mesa de Centro Araucaria"
-                required
-                value={formData.nombre}
-                onChange={(e) =>
-                  setFormData({ ...formData, nombre: e.target.value })
-                }
-                aria-invalid={!!nombreError}
-                aria-describedby="nombreHelp nombreError"
-              />
-              {checkingNombre && !nombreError && (
-                <span id="nombreHelp" className="info" aria-live="polite">
-                  Verificando nombre…
-                </span>
-              )}
-              {nombreError && (
-                <span id="nombreError" className="error" aria-live="polite">
-                  {nombreError}
-                </span>
-              )}
-            </div>
-
-            {/* Precio */}
-            <div>
-              <label htmlFor="precio">Precio (AR$) *</label>
-              <input
-                className="input"
-                type="number"
-                id="precio"
-                name="precio"
-                min="0"
-                step="1"
-                placeholder="250000"
-                required
-                value={formData.precio}
-                onChange={(e) =>
-                  setFormData({ ...formData, precio: e.target.value })
-                }
-                onWheel={(e) => e.currentTarget.blur()} /* evita scroll accidental */
-              />
-            </div>
-
-            {/* Ruta */}
-            <div className="form-row-full">
-              <label htmlFor="ruta">Ruta / URL de imagen *</label>
-              <input
-                className="input"
-                type="text"
-                id="ruta"
-                name="ruta"
-                placeholder="/img/MiProducto.png o https://..."
-                required
-                value={formData.ruta}
-                onChange={(e) =>
-                  setFormData({ ...formData, ruta: e.target.value })
-                }
-              />
-            </div>
-
-            {/* Descripción */}
-            <div className="form-row-full">
-              <label htmlFor="descripcion">Descripción *</label>
-              <textarea
-                className="textarea"
-                id="descripcion"
-                name="descripcion"
-                placeholder="Detalles del producto, materiales, uso, etc."
-                required
-                value={formData.descripcion}
-                onChange={(e) =>
-                  setFormData({ ...formData, descripcion: e.target.value })
-                }
-              />
-            </div>
-
-            {/* Medidas */}
-            <div>
-              <label htmlFor="medidas">Medidas</label>
-              <input
-                className="input"
-                type="text"
-                id="medidas"
-                name="medidas"
-                placeholder="Ej: 180 x 45 x 75 cm"
-                value={formData.medidas}
-                onChange={(e) =>
-                  setFormData({ ...formData, medidas: e.target.value })
-                }
-              />
-            </div>
-
-            {/* Materiales */}
-            <div>
-              <label htmlFor="materiales">Materiales</label>
-              <input
-                className="input"
-                type="text"
-                id="materiales"
-                name="materiales"
-                placeholder="Nogal macizo, acero, etc."
-                value={formData.materiales}
-                onChange={(e) =>
-                  setFormData({ ...formData, materiales: e.target.value })
-                }
-              />
-            </div>
-
-            {/* Acabado */}
-            <div>
-              <label htmlFor="acabado">Acabado</label>
-              <input
-                className="input"
-                type="text"
-                id="acabado"
-                name="acabado"
-                placeholder="Aceite natural, laca mate…"
-                value={formData.acabado}
-                onChange={(e) =>
-                  setFormData({ ...formData, acabado: e.target.value })
-                }
-              />
-            </div>
-          </div>
-
-          <div className="actions">
-            <button
-              className="btn"
-              type="submit"
-              disabled={!!nombreError || checkingNombre}
-            >
-              Crear Producto
-            </button>
-          </div>
-
-          {submitMsg && (
-            <div className="submit-msg" aria-live="polite">
-              {submitMsg}
-            </div>
-          )}
-        </form>
       </div>
     </div>
-  </div>
-);
-
+  );
 }
-
