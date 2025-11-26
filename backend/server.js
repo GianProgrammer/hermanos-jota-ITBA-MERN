@@ -4,6 +4,8 @@ import dotenv from "dotenv";
 import mongoose from "mongoose";
 import productosRouter from "./routes/productos.routes.js";
 import contacto from "./routes/contacto.routes.js"; 
+import userRouter from "./routes/user.routes.js";
+import cookieParser from "cookie-parser";
 import Producto from "./models/producto.js";
 
 dotenv.config()
@@ -13,7 +15,7 @@ const PORT = 5000;
 // Middlewares globales
 app.use(cors());
 app.use(express.json());
-
+app.use(cookieParser());
 app.use((req, res, next) => {
   console.log(`➡️ Petición recibida: ${req.method} ${req.url}`);
   next();
@@ -22,12 +24,17 @@ app.use((req, res, next) => {
 // Rutas principales
 app.use("/api/productos", productosRouter);
 app.use("/api/contacto", contacto); 
+app.use("/api/users", userRouter);
 
 // Middleware 404
 app.use((req, res) => {
   res.status(404).json({ error: "Ruta no encontrada" });
 });
 
+app.use(cors({
+  origin: "http://localhost:5000",
+  credentials: true
+}));
 // Middleware de error global
 app.use((err, req, res, next) => {
   console.error("Error interno:", err.message);
