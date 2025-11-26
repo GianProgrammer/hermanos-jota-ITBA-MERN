@@ -1,6 +1,6 @@
-// src/pages/Register.jsx
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import "../styles/register.css";
 
 function Register() {
   const [formData, setFormData] = useState({
@@ -29,7 +29,6 @@ function Register() {
     setErrorMsg("");
     setSuccessMsg("");
 
-    // Validaciones básicas
     if (formData.password !== formData.confirmPassword) {
       setErrorMsg("Las contraseñas no coinciden.");
       return;
@@ -56,10 +55,8 @@ function Register() {
       const data = await response.json();
       if (!response.ok) throw new Error(data.message || "Error al registrarse.");
 
-      // Registro exitoso ✨
-      setSuccessMsg("Registro exitoso. Redirigiendo al inicio de sesión...");
+      setSuccessMsg("Registro exitoso. Redirigiendo...");
 
-      // Redireccionar al login después de 1.5 segundos
       setTimeout(() => navigate("/login"), 1500);
 
     } catch (error) {
@@ -70,72 +67,74 @@ function Register() {
   };
 
   return (
-    <div className="login-page">
-      <h1>Crear cuenta</h1>
+    <div className="register-container">
+      <div className="register-box">
+        <h1>Crear cuenta</h1>
 
-      <form onSubmit={handleSubmit} className="login-form">
-        <div className="form-group">
-          <label htmlFor="username">Usuario:</label>
-          <input
-            id="username"
-            name="username"
-            type="text"
-            placeholder="Tu nombre de usuario"
-            value={formData.username}
-            onChange={handleChange}
-            required
-          />
-        </div>
+        <form onSubmit={handleSubmit} className="register-form">
 
-        <div className="form-group">
-          <label htmlFor="email">Email:</label>
-          <input
-            id="email"
-            name="email"
-            type="email"
-            placeholder="tuemail@ejemplo.com"
-            value={formData.email}
-            onChange={handleChange}
-            required
-          />
-        </div>
+          <div className="form-group">
+            <label htmlFor="username">Usuario:</label>
+            <input
+              id="username"
+              name="username"
+              type="text"
+              placeholder="Tu nombre de usuario"
+              value={formData.username}
+              onChange={handleChange}
+              required
+            />
+          </div>
 
-        <div className="form-group">
-          <label htmlFor="password">Contraseña:</label>
-          <input
-            id="password"
-            name="password"
-            type="password"
-            placeholder="********"
-            value={formData.password}
-            onChange={handleChange}
-            required
-          />
-        </div>
+          <div className="form-group">
+            <label htmlFor="email">Email:</label>
+            <input
+              id="email"
+              name="email"
+              type="email"
+              placeholder="tuemail@ejemplo.com"
+              value={formData.email}
+              onChange={handleChange}
+              required
+            />
+          </div>
 
-        <div className="form-group">
-          <label htmlFor="confirmPassword">Repetir contraseña:</label>
-          <input
-            id="confirmPassword"
-            name="confirmPassword"
-            type="password"
-            placeholder="********"
-            value={formData.confirmPassword}
-            onChange={handleChange}
-            required
-          />
-        </div>
+          <div className="form-group">
+            <label htmlFor="password">Contraseña:</label>
+            <input
+              id="password"
+              name="password"
+              type="password"
+              placeholder="********"
+              value={formData.password}
+              onChange={handleChange}
+              required
+            />
+          </div>
 
-        {errorMsg && <p style={{ color: "red" }}>{errorMsg}</p>}
-        {successMsg && <p style={{ color: "green" }}>{successMsg}</p>}
+          <div className="form-group">
+            <label htmlFor="confirmPassword">Repetir contraseña:</label>
+            <input
+              id="confirmPassword"
+              name="confirmPassword"
+              type="password"
+              placeholder="********"
+              value={formData.confirmPassword}
+              onChange={handleChange}
+              required
+            />
+          </div>
 
-        <button type="submit" disabled={loading}>
-          {loading ? "Creando cuenta..." : "Registrarme"}
-        </button>
-      </form>
+          {errorMsg && <p className="error-msg">{errorMsg}</p>}
+          {successMsg && <p className="success-msg">{successMsg}</p>}
+
+          <button type="submit" disabled={loading}>
+            {loading ? "Creando cuenta..." : "Registrarme"}
+          </button>
+        </form>
+      </div>
     </div>
   );
 }
 
 export default Register;
-

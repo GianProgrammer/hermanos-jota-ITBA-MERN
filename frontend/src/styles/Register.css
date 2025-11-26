@@ -1,0 +1,86 @@
+/* Fondo beige y centrado */
+.register-container {
+  width: 100%;
+  min-height: 100vh;
+  background-color: #f2e9e4;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Caja del formulario */
+.register-box {
+  width: 420px;
+  background: rgba(255, 255, 255, 0.9);
+  padding: 40px;
+  border-radius: 16px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+  backdrop-filter: blur(3px);
+}
+
+/* Título */
+.register-box h1 {
+  text-align: left;
+  color: #9b592a;
+  font-family: "Playfair Display", serif;
+  margin-bottom: 25px;
+  font-size: 28px;
+}
+
+/* Formulario */
+.register-form .form-group {
+  margin-bottom: 20px;
+}
+
+.register-form label {
+  display: block;
+  font-weight: 600;
+  color: #9b592a;
+  margin-bottom: 6px;
+}
+
+.register-form input {
+  width: 100%;
+  padding: 10px 12px;
+  border-radius: 8px;
+  border: 1px solid #c7b299;
+  background: white;
+  transition: 0.2s ease;
+}
+
+.register-form input:focus {
+  outline: none;
+  border-color: #9b592a;
+}
+
+/* Botón */
+button {
+  width: 100%;
+  padding: 12px;
+  background-color: #9b592a;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  margin-top: 10px;
+}
+
+button:hover {
+  background-color: #7f441f;
+}
+
+/* Mensajes */
+.error-msg {
+  color: red;
+  margin-bottom: 10px;
+}
+
+.success-msg {
+  color: green;
+  margin-bottom: 10px;
+}
+
+
