@@ -9,6 +9,24 @@ function escapeRegex(text) {
   return text.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
 }
 
+// ----- Helper para resolver por _id O por id -----
+async function findProductoByAnyId(identificador) {
+  let producto = null;
+
+  // Si parece un ObjectId (24 chars hex), primero pruebo por _id
+  if (/^[0-9a-fA-F]{24}$/.test(identificador)) {
+    producto = await Producto.findById(identificador);
+  }
+
+  // Si no encontré nada, pruebo por el campo id (tu código de producto)
+  if (!producto) {
+    producto = await Producto.findOne({ id: identificador });
+  }
+
+  return producto;
+}
+
+// ---------- check nombre ----------
 router.post("/check-nombre", async (req, res) => {
   try {
     const { nombre } = req.body || {};
@@ -21,37 +39,41 @@ router.post("/check-nombre", async (req, res) => {
     return res.status(200).json({ exists: !!exists });
   } catch (error) {
     console.error("check-nombre error:", error);
-    return res.status(500).json({ error: "Error interno al verificar el nombre" });
+    return res
+      .status(500)
+      .json({ error: "Error interno al verificar el nombre" });
   }
 });
 
-// lista completa
+// ---------- lista completa ----------
 router.get("/", async (req, res) => {
   try {
     const productos = await Producto.find();
     res.json(productos);
   } catch (error) {
+    console.error(error);
     res.status(500).json({ error: "Error al obtener los productos" });
   }
 });
 
-
-// obtener un producto por id (UUID)
-router.get("/:id", async (req, res) => {
+// ---------- obtener un producto por _id o id ----------
+router.get("/:identificador", async (req, res) => {
   try {
-    const producto = await Producto.findOne({ id: req.params.id });
+    const { identificador } = req.params;
+
+    const producto = await findProductoByAnyId(identificador);
+
     if (producto) {
-      res.json(producto);
-    } else {
-      res.status(404).json({ error: "Producto no encontrado" });
+      return res.json(producto);
     }
+    return res.status(404).json({ error: "Producto no encontrado" });
   } catch (error) {
     console.error(error);
-    res.status(400).json({ error: "ID inválido" });
+    return res.status(400).json({ error: "ID inválido" });
   }
 });
 
-// agregar un nuevo producto
+// ---------- agregar un nuevo producto ----------
 router.post("/", async (req, res) => {
   try {
     const body = { ...req.body };
@@ -59,63 +81,94 @@ router.post("/", async (req, res) => {
 
     const nuevoProducto = new Producto(body);
     await nuevoProducto.save();
-    res.status(201).json(nuevoProducto);
+    return res.status(201).json(nuevoProducto);
   } catch (error) {
-    // Duplicado por índice único
     if (error?.code === 11000) {
-      return res.status(409).json({ error: "Ya existe un producto con ese nombre" });
+      return res
+        .status(409)
+        .json({ error: "Ya existe un producto con ese nombre" });
     }
-    res.status(400).json({ error: "Error al crear el producto", details: error.message });
+    console.error(error);
+    return res.status(400).json({
+      error: "Error al crear el producto",
+      details: error.message,
+    });
   }
 });
 
-// actualizar un producto
-router.put("/:id", async (req, res) => {
+// ---------- actualizar un producto por _id o id ----------
+router.put("/:identificador", async (req, res) => {
   try {
-    const id = req.params.id;
+    const { identificador } = req.params;
     const body = { ...req.body };
     if (body.precio != null) body.precio = Number(body.precio);
 
+    // primero resuelvo el documento real
+    const producto = await findProductoByAnyId(identificador);
+    if (!producto) {
+      return res.status(404).json({ error: "Producto no encontrado" });
+    }
+
+    const idMongo = producto.id.toString();
+
     // Si viene nombre, chequear colisión case-insensitive con otros docs
     if (body.nombre && String(body.nombre).trim()) {
-      const regex = new RegExp(`^${escapeRegex(String(body.nombre).trim())}$`, "i");
-      const conflict = await Producto.exists({ _id: { $ne: id }, nombre: regex });
+      const regex = new RegExp(
+        `^${escapeRegex(String(body.nombre).trim())}$`,
+        "i"
+      );
+      const conflict = await Producto.exists({
+        _id: { $ne: idMongo },
+        nombre: regex,
+      });
       if (conflict) {
-        return res.status(409).json({ error: "Ya existe un producto con ese nombre" });
+        return res
+          .status(409)
+          .json({ error: "Ya existe un producto con ese nombre" });
       }
     }
 
-    const productoActualizado = await Producto.findByIdAndUpdate(id, body, {
-      new: true,
-      runValidators: true,
-    });
-    if (productoActualizado) {
-      res.json(productoActualizado);
-    } else {
-      res.status(404).json({ error: "Producto no encontrado" });
-    }
+    const productoActualizado = await Producto.findByIdAndUpdate(
+      idMongo,
+      body,
+      {
+        new: true,
+        runValidators: true,
+      }
+    );
+
+    return res.json(productoActualizado);
   } catch (error) {
     if (error?.code === 11000) {
-      return res.status(409).json({ error: "Ya existe un producto con ese nombre" });
+      return res
+        .status(409)
+        .json({ error: "Ya existe un producto con ese nombre" });
     }
-    res.status(400).json({ error: "Error al actualizar el producto", details: error.message });
+    console.error(error);
+    return res.status(400).json({
+      error: "Error al actualizar el producto",
+      details: error.message,
+    });
   }
 });
 
-// eliminar un producto por id (UUID)
-router.delete("/:id", async (req, res) => {
+// ---------- eliminar un producto por _id o id ----------
+router.delete("/:identificador", async (req, res) => {
   try {
-    const eliminado = await Producto.findOneAndDelete({ id: req.params.id });
-    if (eliminado) {
-      res.json({ mensaje: "Producto eliminado correctamente" });
-    } else {
-      res.status(404).json({ error: "Producto no encontrado" });
+    const { identificador } = req.params;
+
+    const producto = await findProductoByAnyId(identificador);
+    if (!producto) {
+      return res.status(404).json({ error: "Producto no encontrado" });
     }
+
+    await Producto.findByIdAndDelete(producto.id);
+
+    return res.json({ mensaje: "Producto eliminado correctamente" });
   } catch (error) {
     console.error(error);
-    res.status(400).json({ error: "Error al eliminar el producto" });
+    return res.status(400).json({ error: "Error al eliminar el producto" });
   }
 });
 
 export default router;
-

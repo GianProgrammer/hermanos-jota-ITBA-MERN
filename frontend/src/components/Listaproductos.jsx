@@ -54,14 +54,14 @@ function ListaProductos({ titulo, limite }) {
       )}
 
       <div className="grid-productos">
-        {productosAMostrar.map((prod) => (
-        <div key={prod._id || prod.id} className="card">
-          <img src={prod.ruta} alt={prod.nombre} className="card-img-top" />
+        {productosAMostrar.map((producto) => (
+        <div key={producto.id || producto.id} className="card">
+          <img src={producto.ruta} alt={producto.nombre} className="card-img-top" />
           <div className="card-body">
-            <h5 className="card-title">{prod.nombre}</h5>
-            <p className="card-text">{prod.descripcion}</p>
-            <p><b>Medidas:</b> {prod.medidas}</p>
-            <Link to={`/producto/${prod._id || prod.id}`} className="btn">
+            <h5 className="card-title">{producto.nombre}</h5>
+            <p className="card-text">{producto.descripcion}</p>
+            <p><b>Medidas:</b> {producto.medidas}</p>
+            <Link to={`/producto/${producto.id || producto.id}`} className="btn">
               Ver más
             </Link>
           </div>

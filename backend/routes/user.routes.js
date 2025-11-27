@@ -30,7 +30,7 @@ router.post('/register', async (req, res) => {
     const savedUser = await newUser.save();
 
     res.status(201).json({
-      _id: savedUser._id,
+      _id: savedUser.id,
       username: savedUser.username,
       email: savedUser.email,
     });
@@ -64,7 +64,7 @@ router.post("/login", async (req, res) => {
 
     // ⬇ GENERAR JWT (para Header)
     const token = jwt.sign(
-      { id: user._id, email: user.email },
+      { id: user.id, email: user.email },
       process.env.JWT_SECRET,
       { expiresIn: "1h" }
     );
@@ -73,7 +73,7 @@ router.post("/login", async (req, res) => {
     res.status(200).json({
       token,
       user: {
-        id: user._id,
+        id: user.id,
         username: user.username,
         email: user.email,
       }

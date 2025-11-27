@@ -54,12 +54,14 @@ function Carrito({ carrito, setCarrito, addToCarrito }) {
           <h3>Productos que podrían interesarte</h3>
 
           <div className="recomendados-carousel">
-            {recomendados.map((p) => (
-              <div key={p.id} className="recomendado-card">
-                <img src={p.ruta} alt={p.nombre} />
-                <h4>{p.nombre}</h4>
-                <p>${p.precio.toLocaleString("es-AR")}</p>
-                <button onClick={() => addToCarrito(p)}>Añadir al carrito</button>
+            {recomendados.map((producto) => (
+              <div key={producto.id} className="recomendado-card">
+                <img src={producto.ruta} alt={producto.nombre} />
+                <h4>{producto.nombre}</h4>
+                <p>${producto.precio.toLocaleString("es-AR")}</p>
+                <button onClick={() => addToCarrito(producto)}>
+                  🛒 Añadir al carrito
+                </button>
               </div>
             ))}
           </div>
@@ -75,15 +77,15 @@ function Carrito({ carrito, setCarrito, addToCarrito }) {
         <div className="carrito-layout">
           {/* Lista de productos */}
           <ul className="carrito-list">
-            {carrito.map((prod, i) => (
+            {carrito.map((producto, i) => (
               <li key={i} className="carrito-item">
-                <img src={prod.ruta} alt={prod.nombre} className="carrito-img" />
+                <img src={producto.ruta} alt={producto.nombre} className="carrito-img" />
 
                 <div className="carrito-info">
-                  <h4>{prod.nombre}</h4>
-                  <p className="carrito-descripcion">{prod.descripcion}</p>
+                  <h4>{producto.nombre}</h4>
+                  <p className="carrito-descripcion">{producto.descripcion}</p>
                   <p className="precio">
-                    <b>${prod.precio.toLocaleString("es-AR")}</b>
+                    <b>${producto.precio.toLocaleString("es-AR")}</b>
                   </p>
                   <button
                     className="btn-borrar"
