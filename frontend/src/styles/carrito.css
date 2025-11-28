@@ -54,11 +54,13 @@
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
 
+/* IMAGEN MÁS GRANDE Y PROPORCIONADA */
 .carrito-img {
-  width: 100px;
-  height: auto;
-  border-radius: 8px;
-  object-fit: cover;
+  width: 180px;        /* antes 100px */
+  height: 140px;       /* fija altura limpia */
+  border-radius: 10px;
+  object-fit: cover;   /* la recorta elegante */
+  flex-shrink: 0;      /* 🔥 evita que se achique */
 }
 
 .carrito-info {
@@ -307,6 +309,47 @@
   outline: 2px solid #ffe0b2;
   outline-offset: 3px;
 }
+/* ==============================
+   CANTIDAD — VERSION CHICA Y PROLIJA
+============================== */
+
+.cantidad-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 12px 0;
+}
+
+.cantidad-btn {
+  background-color: #a0522d;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  width: 45px;           /* 🔥 tamaño ideal */
+  height: 32px;          /* 🔥 más compacto */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 1rem;       /* 16px prolijo */
+  cursor: pointer;
+  transition: background-color 0.25s ease, transform 0.1s ease;
+}
+
+.cantidad-btn:hover {
+  background-color: #8b421f;
+}
+
+.cantidad-btn:active {
+  transform: scale(0.95);
+}
+
+.cantidad-num {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #3e2723;
+  min-width: 22px;
+  text-align: center;
+}
 
 @media (max-width: 768px) {
   .recomendado-card {
@@ -316,4 +359,50 @@
   .recomendados-carousel {
     max-width: 100%;
   }
+}
+.carrito-mensaje {
+  background: #f1e4d6;
+  color: #5d3b2e;
+  border: 1px solid #e0c8b3;
+  padding: 15px 20px;
+  border-radius: 10px;
+  text-align: center;
+  font-size: 1.1rem;
+  margin-bottom: 25px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+  animation: fadeIn 0.4s ease;
+}
+.pedido-detalle {
+  margin-top: 10px;
+  background: #fff7ef;
+  padding: 12px;
+  border-radius: 8px;
+  border: 1px solid #e5d2be;
+}
+
+.pedido-item {
+  display: flex;
+  justify-content: space-between;
+  padding: 5px 0;
+  font-size: 0.95rem;
+}
+
+.pedido-total {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 10px;
+  font-size: 1rem;
+  font-weight: bold;
+}
+
+.pedido-estado {
+  margin-top: 12px;
+  font-size: 1rem;
+  color: #6b4226;
+  font-style: italic;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-5px); }
+  to   { opacity: 1; transform: translateY(0); }
 }

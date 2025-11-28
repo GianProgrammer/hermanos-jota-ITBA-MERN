@@ -1,6 +1,6 @@
-// src/Auth/AuthProvider.jsx
-import { useState} from "react";
-import { AuthContext } from "./AuthContext";
+// src/auth/AuthProvider.jsx
+import { useState } from "react";
+import { AuthContext } from "./AuthContext.js";
 
 export const AuthProvider = ({ children }) => {
   const [token, setToken] = useState(localStorage.getItem("token") || null);
@@ -10,17 +10,14 @@ export const AuthProvider = ({ children }) => {
 
   const isAuthenticated = Boolean(token);
 
-  // 🔹 login(token, user)
   const login = (newToken, userData) => {
     setToken(newToken);
     setUser(userData);
 
-    // Persistir
     localStorage.setItem("token", newToken);
     localStorage.setItem("user", JSON.stringify(userData));
   };
 
-  // 🔹 logout()
   const logout = () => {
     setToken(null);
     setUser(null);
@@ -29,17 +26,19 @@ export const AuthProvider = ({ children }) => {
     localStorage.removeItem("user");
   };
 
-  const authContextValue = {
-    user,
-    token,
-    isAuthenticated,
-    login,
-    logout
-  };
-
   return (
-    <AuthContext.Provider value={authContextValue}>
+    <AuthContext.Provider
+      value={{
+        user,
+        token,
+        isAuthenticated,
+        login,
+        logout,
+      }}
+    >
       {children}
     </AuthContext.Provider>
   );
 };
+
+

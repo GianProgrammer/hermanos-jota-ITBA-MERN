@@ -1,7 +1,7 @@
 // src/Pages/Login.jsx
 import { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
-import { AuthContext } from "../Auth/AuthContext";
+import { AuthContext } from "../auth/AuthContext";
 import "../styles/login.css";   // <-- asegurate de importar el css
 
 function Login() {

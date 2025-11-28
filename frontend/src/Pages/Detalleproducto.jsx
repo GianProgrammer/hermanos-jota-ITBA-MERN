@@ -1,17 +1,20 @@
 import { useParams, Link, useNavigate } from "react-router-dom";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
+import { CartContext } from "../auth/CartContext.js";
 import "../styles/producto.css";
 
 const API_BASE = "https://hermanos-jota-itba-mern.onrender.com/api/productos";
 
-function DetalleProducto({ addToCarrito }) {
+function DetalleProducto() {
   const { id } = useParams();
   const navigate = useNavigate();
   const [producto, setProducto] = useState(null);
   const [loading, setLoading] = useState(true);
 
+  // 🔥 IMPORTANTE: usar el contexto DEL CARRITO
+  const { addItemToCart } = useContext(CartContext);
+
   useEffect(() => {
-    // Traer el producto desde el backend
     fetch(`${API_BASE}/${id}`)
       .then(res => res.json())
       .then(data => {
@@ -32,7 +35,7 @@ function DetalleProducto({ addToCarrito }) {
       const res = await fetch(`${API_BASE}/${id}`, { method: "DELETE" });
       if (res.ok) {
         alert("Producto eliminado correctamente");
-        navigate("/productos"); // Redirige al catálogo
+        navigate("/productos");
       } else {
         alert("Error al eliminar el producto");
       }
@@ -57,7 +60,8 @@ function DetalleProducto({ addToCarrito }) {
         <p><b>Medidas:</b> {producto.medidas}</p>
 
         <div className="botones">
-          <button className="btn" onClick={() => addToCarrito(producto)}>
+          {/* 🔥 Usa el contexto para agregar */}
+          <button className="btn" onClick={() => addItemToCart(producto)}>
             🛒 Añadir al Carrito
           </button>
 

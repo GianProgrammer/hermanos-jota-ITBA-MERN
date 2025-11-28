@@ -7,6 +7,9 @@ import contacto from "./routes/contacto.routes.js";
 import userRouter from "./routes/user.routes.js";
 import cookieParser from "cookie-parser";
 import Producto from "./models/producto.js";
+import pedidosRouter from "./routes/pedidos.routes.js";
+
+
 
 dotenv.config()
 const app = express();
@@ -25,7 +28,7 @@ app.use((req, res, next) => {
 app.use("/api/productos", productosRouter);
 app.use("/api/contacto", contacto); 
 app.use("/api/users", userRouter);
-
+app.use("/api/pedidos", pedidosRouter);
 // Middleware 404
 app.use((req, res) => {
   res.status(404).json({ error: "Ruta no encontrada" });

@@ -1,19 +1,29 @@
 // src/components/NavBar.jsx
 import { Link } from "react-router-dom";
 import { useContext, useState } from "react";
-import { AuthContext } from "../Auth/AuthContext";
-import "../styles/navbar.css";
+import { AuthContext } from "../auth/AuthContext.js";
 
-function NavBar({ carritoCount }) {
+import "../styles/navbar.css";
+import { CartContext } from "../auth/CartContext.js";
+
+
+function NavBar() {
   const { user, logout } = useContext(AuthContext);
   const [search, setSearch] = useState("");
   const [menuOpen, setMenuOpen] = useState(false);
+  
   let closeTimeout;
+  const { cartItems } = useContext(CartContext);
 
   const handleMouseEnter = () => {
     clearTimeout(closeTimeout);
     setMenuOpen(true);
   };
+
+  const carritoCount = cartItems.reduce(
+    (acc, item) => acc + item.quantity,
+    0
+  );
 
   const handleMouseLeave = () => {
     closeTimeout = setTimeout(() => {

@@ -1,8 +1,7 @@
 // src/App.js
 import { useContext, useState } from "react";
 import { Routes, Route } from "react-router-dom";
-import { AuthContext } from "./Auth/AuthContext";
-
+import {AuthContext} from "./auth/AuthContext";
 import NavBar from "./components/navbar";
 import Footer from "./components/Footer";
 import Home from "./Pages/home";
