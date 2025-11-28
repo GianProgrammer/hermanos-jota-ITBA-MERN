@@ -16,7 +16,16 @@ const CartProvider = ({ children }) => {
         );
       }
 
-      return [...prev, { ...productToAdd, quantity: 1 }];
+      return [
+        ...prev,
+        {
+          _id: productToAdd._id,
+          name: productToAdd.name || productToAdd.nombre,
+          price: productToAdd.price || productToAdd.precio,
+          imageUrl: productToAdd.imageUrl || productToAdd.ruta,
+          quantity: 1,
+        },
+      ];
     });
   }, []);
 

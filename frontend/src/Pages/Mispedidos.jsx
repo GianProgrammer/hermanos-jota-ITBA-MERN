@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import "../styles/mispedidos.css";
 
 function MisPedidos() {
   const [pedidos, setPedidos] = useState([]);
@@ -8,15 +9,16 @@ function MisPedidos() {
     const fetchPedidos = async () => {
       try {
         const res = await fetch(
-        "https://hermanos-jota-itba-mern-34lp.onrender.com/api/mis-pedidos/mios",
-        {
+          "https://hermanos-jota-itba-mern-34lp.onrender.com/api/mis-pedidos/mios",
+          {
             headers: {
-            "Authorization": `Bearer ${localStorage.getItem("token")}`
-            }
-        }
+              Authorization: `Bearer ${localStorage.getItem("token")}`,
+            },
+          }
         );
+
         const data = await res.json();
-        setPedidos(Array.isArray(data) ? data : []); // evita error de map()
+        setPedidos(Array.isArray(data) ? data : []);
       } catch (error) {
         console.error("Error cargando pedidos:", error);
       } finally {
@@ -35,23 +37,43 @@ function MisPedidos() {
 
   return (
     <div className="mis-pedidos-wrapper">
-      <h2>🧾 Mis Pedidos</h2>
+      <h2 className="titulo-pedidos">🧾 Mis Pedidos</h2>
 
       {pedidos.map((pedido) => (
         <div key={pedido._id} className="pedido-card">
-          <h3>Pedido #{pedido._id.slice(-6)}</h3>
-          <p><b>Estado:</b> {pedido.estado}</p>
-          <p><b>Total:</b> ${pedido.total.toLocaleString("es-AR")}</p>
+          <div className="pedido-header">
+            <h3>Pedido #{pedido._id.slice(-6)}</h3>
+            <span className="pedido-estado">{pedido.estado}</span>
+          </div>
 
-          <h4>Productos:</h4>
-          {pedido.productos.map((prod) => (
-            <p key={prod._id}>
-              {prod.quantity} × {prod.nombre} — $
-              {(prod.precio * prod.quantity).toLocaleString("es-AR")}
-            </p>
-          ))}
+          <div className="pedido-total">
+            Total: <b>${pedido.total.toLocaleString("es-AR")}</b>
+          </div>
 
-          <hr />
+          <h4 className="subtitulo-productos">Productos:</h4>
+
+          <div className="productos-lista">
+            {pedido.productos.map((prod) => {
+              const name = prod.name || prod.nombre || "Producto";
+              const price = prod.price ?? prod.precio ?? 0;
+              const qty = prod.quantity ?? 1;
+
+              return (
+                <div className="producto-item" key={prod._id}>
+                  <div className="producto-info">
+                    <p className="producto-nombre">{name}</p>
+                    <p className="producto-cantidad">
+                      {qty} × ${price.toLocaleString("es-AR")}
+                    </p>
+                  </div>
+
+                  <p className="producto-subtotal">
+                    ${(qty * price).toLocaleString("es-AR")}
+                  </p>
+                </div>
+              );
+            })}
+          </div>
         </div>
       ))}
     </div>

@@ -1,83 +1,103 @@
-.pedidos-wrapper {
+.mis-pedidos-wrapper {
   max-width: 900px;
   margin: 40px auto;
   padding: 20px;
-  font-family: "Inter", sans-serif;
 }
 
-.pedidos-titulo {
-  font-family: "Playfair Display", serif;
+.titulo-pedidos {
   font-size: 2rem;
-  color: #3e2723;
-  text-align: center;
-  margin-bottom: 30px;
-}
-
-.sin-pedidos, .cargando {
-  text-align: center;
-  color: #6b4c3b;
-  font-size: 1.2rem;
-  margin-top: 40px;
+  margin-bottom: 20px;
+  color: #5e3d2f;
 }
 
 .pedido-card {
-  background: #fffaf5;
-  border: 1px solid #ead9c7;
-  padding: 20px;
+  background: #fff7ef;
+  border: 1px solid #e8d0bd;
   border-radius: 12px;
-  margin-bottom: 25px;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.07);
+  padding: 25px;
+  margin-bottom: 30px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.08);
 }
 
 .pedido-header {
   display: flex;
   justify-content: space-between;
-  margin-bottom: 15px;
+  align-items: center;
 }
 
-.pedido-fecha {
-  color: #7b5e4d;
+.pedido-header h3 {
+  font-size: 1.4rem;
+  margin: 0;
 }
 
 .pedido-estado {
-  padding: 6px 10px;
-  border-radius: 6px;
-  font-weight: 600;
-}
-
-.estado-confirmado {
-  background-color: #d0f0d0;
-  color: #27632a;
-}
-
-.estado-procesando {
-  background-color: #fff3cd;
-  color: #856404;
-}
-
-.estado-en\ camino {
-  background-color: #cce5ff;
-  color: #004085;
-}
-
-.estado-entregado {
-  background-color: #d4edda;
-  color: #155724;
-}
-
-.pedido-productos {
-  margin-bottom: 15px;
-}
-
-.pedido-producto {
-  display: flex;
-  justify-content: space-between;
-  padding: 6px 0;
-  border-bottom: 1px solid #f0e5d8;
+  background: #d6b28c;
+  padding: 6px 14px;
+  border-radius: 10px;
+  font-size: 0.9rem;
+  color: white;
+  font-weight: bold;
 }
 
 .pedido-total {
-  font-size: 1.2rem;
-  text-align: right;
-  color: #3e2723;
+  margin-top: 10px;
+  font-size: 1.1rem;
+  color: #5e3d2f;
 }
+
+.subtitulo-productos {
+  margin-top: 20px;
+  font-size: 1.2rem;
+  color: #744c35;
+}
+
+.productos-lista {
+  margin-top: 15px;
+}
+
+/* PRODUCTO */
+.producto-item {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  background: #ffffff;
+  padding: 14px;
+  border-radius: 12px;
+  border: 1px solid #e8d0bd;
+  margin-bottom: 12px;
+}
+
+/* Imagen más grande y bien proporcionada */
+.producto-img {
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
+  border-radius: 10px;
+}
+
+/* Columna de texto */
+.producto-info {
+  flex: 1;
+}
+
+.producto-nombre {
+  font-weight: bold;
+  font-size: 1.1rem;
+  margin: 0 0 5px;
+  color: #4a2c1a;
+}
+
+.producto-cantidad {
+  color: #6b4a36;
+  font-size: 0.95rem;
+}
+
+/* Subtotal alineado a la derecha */
+.producto-subtotal {
+  font-weight: bold;
+  color: #4a2c1a;
+  font-size: 1rem;
+  min-width: 90px;
+  text-align: right;
+}
+

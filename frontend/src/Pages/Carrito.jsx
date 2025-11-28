@@ -10,18 +10,19 @@ function Carrito() {
 
   const [mensajeCompra, setMensajeCompra] = useState("");
   const [detallePedido, setDetallePedido] = useState(null);
-  const [estadoPedido, setEstadoPedido] = useState(""); // AHORA SE USA
+  const [estadoPedido, setEstadoPedido] = useState("");
 
   const [productos, setProductos] = useState([]);
   const [indice, setIndice] = useState(0);
 
+  // TOTAL corregido
   const total = cartItems.reduce(
-    (acc, item) => acc + item.precio * item.quantity,
+    (acc, item) => acc + (item.price || 0) * item.quantity,
     0
   );
 
   // ---------------------------
-  // 🔥 CONFIRMAR COMPRA (GUARDA EN DB)
+  // 🔥 CONFIRMAR COMPRA
   // ---------------------------
   const confirmarCompra = async () => {
     if (!user) {
@@ -47,19 +48,12 @@ function Carrito() {
       const data = await res.json();
 
       if (res.ok) {
-        // Mostrar cartel principal
         setMensajeCompra("¡Compra realizada con éxito! 🎉");
-
-        // Guardar detalles de la compra que se muestran en pantalla
         setDetallePedido(cartItems);
-
-        // Mostrar estado del pedido
         setEstadoPedido("Pedido confirmado y registrado ✔️");
 
-        // Vaciar carrito visualmente
         clearCart();
 
-        // Ocultar mensaje después de 4 seg
         setTimeout(() => {
           setMensajeCompra("");
           setDetallePedido(null);
@@ -112,10 +106,10 @@ function Carrito() {
               {detallePedido.map((item) => (
                 <div key={item._id} className="pedido-item">
                   <span>
-                    {item.quantity} × {item.nombre}
+                    {item.quantity} × {item.name}
                   </span>
                   <span>
-                    ${(item.precio * item.quantity).toLocaleString("es-AR")}
+                    ${((item.price || 0) * item.quantity).toLocaleString("es-AR")}
                   </span>
                 </div>
               ))}
@@ -163,12 +157,13 @@ function Carrito() {
           <ul className="carrito-list">
             {cartItems.map((item) => (
               <li key={item._id} className="carrito-item">
-                <img src={item.ruta} className="carrito-img" />
+                <img src={item.imageUrl} className="carrito-img" />
+
                 <div className="carrito-info">
-                  <h4>{item.nombre}</h4>
+                  <h4>{item.name}</h4>
 
                   <p className="precio">
-                    ${item.precio.toLocaleString("es-AR")}
+                    ${(item.price || 0).toLocaleString("es-AR")}
                   </p>
 
                   <div className="cantidad-row">
@@ -239,3 +234,5 @@ function Carrito() {
 }
 
 export default Carrito;
+
+

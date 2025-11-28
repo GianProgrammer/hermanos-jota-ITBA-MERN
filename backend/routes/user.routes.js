@@ -25,6 +25,7 @@ router.post('/register', async (req, res) => {
       username,
       email,
       password: hashedPassword,
+      role: "user" 
     });
 
     const savedUser = await newUser.save();
@@ -64,7 +65,7 @@ router.post("/login", async (req, res) => {
 
     // ⬇ GENERAR JWT (para Header)
     const token = jwt.sign(
-      { id: user.id, email: user.email },
+      { id: user.id, email: user.email, role: user.role },
       process.env.JWT_SECRET,
       { expiresIn: "1h" }
     );
