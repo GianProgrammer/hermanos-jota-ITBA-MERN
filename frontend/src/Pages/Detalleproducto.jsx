@@ -3,7 +3,7 @@ import { useState, useEffect, useContext } from "react";
 import { CartContext } from "../auth/CartContext.js";
 import "../styles/producto.css";
 
-const API_BASE = "https://hermanos-jota-itba-mern.onrender.com/api/productos";
+const API_BASE = "https://hermanos-jota-itba-mern-34lp.onrender.com/api/productos";
 
 function DetalleProducto() {
   const { id } = useParams();

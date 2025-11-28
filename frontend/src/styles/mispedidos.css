@@ -1,0 +1,83 @@
+.pedidos-wrapper {
+  max-width: 900px;
+  margin: 40px auto;
+  padding: 20px;
+  font-family: "Inter", sans-serif;
+}
+
+.pedidos-titulo {
+  font-family: "Playfair Display", serif;
+  font-size: 2rem;
+  color: #3e2723;
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.sin-pedidos, .cargando {
+  text-align: center;
+  color: #6b4c3b;
+  font-size: 1.2rem;
+  margin-top: 40px;
+}
+
+.pedido-card {
+  background: #fffaf5;
+  border: 1px solid #ead9c7;
+  padding: 20px;
+  border-radius: 12px;
+  margin-bottom: 25px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.07);
+}
+
+.pedido-header {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 15px;
+}
+
+.pedido-fecha {
+  color: #7b5e4d;
+}
+
+.pedido-estado {
+  padding: 6px 10px;
+  border-radius: 6px;
+  font-weight: 600;
+}
+
+.estado-confirmado {
+  background-color: #d0f0d0;
+  color: #27632a;
+}
+
+.estado-procesando {
+  background-color: #fff3cd;
+  color: #856404;
+}
+
+.estado-en\ camino {
+  background-color: #cce5ff;
+  color: #004085;
+}
+
+.estado-entregado {
+  background-color: #d4edda;
+  color: #155724;
+}
+
+.pedido-productos {
+  margin-bottom: 15px;
+}
+
+.pedido-producto {
+  display: flex;
+  justify-content: space-between;
+  padding: 6px 0;
+  border-bottom: 1px solid #f0e5d8;
+}
+
+.pedido-total {
+  font-size: 1.2rem;
+  text-align: right;
+  color: #3e2723;
+}

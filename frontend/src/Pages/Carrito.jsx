@@ -1,19 +1,16 @@
 import "../styles/carrito.css";
 import { useState, useEffect, useContext } from "react";
 import { CartContext } from "../auth/CartContext.js";
+import { AuthContext } from "../auth/AuthContext.js";
 
 function Carrito() {
-  const {
-    cartItems,
-    addItemToCart,
-    updateQuantity,
-    removeItem,
-    clearCart,
-  } = useContext(CartContext);
+  const { cartItems, addItemToCart, updateQuantity, removeItem, clearCart } =
+    useContext(CartContext);
+  const { user } = useContext(AuthContext);
 
   const [mensajeCompra, setMensajeCompra] = useState("");
-  const [detallePedido, setDetallePedido] = useState(null); // 🔥 nuevo
-  const [estadoPedido, setEstadoPedido] = useState(""); // 🔥 nuevo
+  const [detallePedido, setDetallePedido] = useState(null);
+  const [estadoPedido, setEstadoPedido] = useState(""); // AHORA SE USA
 
   const [productos, setProductos] = useState([]);
   const [indice, setIndice] = useState(0);
@@ -23,27 +20,63 @@ function Carrito() {
     0
   );
 
-  // 🔥 FUNCIÓN DE COMPRA MEJORADA
-  const confirmarCompra = () => {
-    setDetallePedido(cartItems); // guardamos lo que el usuario compró
-    setEstadoPedido("Procesando pedido…");
-    setMensajeCompra("¡Esta es su compra! 🧾");
+  // ---------------------------
+  // 🔥 CONFIRMAR COMPRA (GUARDA EN DB)
+  // ---------------------------
+  const confirmarCompra = async () => {
+    if (!user) {
+      return alert("Debes iniciar sesión para confirmar tu compra");
+    }
 
-    // 1 segundo: mostrar mensaje + detalle
-    // 2 segundos: vaciar carrito + mostrar estado
-    setTimeout(() => {
-      setEstadoPedido("Pedido confirmado ✔️");
-      clearCart();
-    }, 2000);
+    try {
+      const res = await fetch(
+        "https://hermanos-jota-itba-mern-34lp.onrender.com/api/mis-pedidos/",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+          body: JSON.stringify({
+            productos: cartItems,
+            total,
+          }),
+        }
+      );
 
-    // 4 segundos: ocultar cartel y estado
-    setTimeout(() => {
-      setMensajeCompra("");
-      setEstadoPedido("");
-      setDetallePedido(null);
-    }, 4000);
+      const data = await res.json();
+
+      if (res.ok) {
+        // Mostrar cartel principal
+        setMensajeCompra("¡Compra realizada con éxito! 🎉");
+
+        // Guardar detalles de la compra que se muestran en pantalla
+        setDetallePedido(cartItems);
+
+        // Mostrar estado del pedido
+        setEstadoPedido("Pedido confirmado y registrado ✔️");
+
+        // Vaciar carrito visualmente
+        clearCart();
+
+        // Ocultar mensaje después de 4 seg
+        setTimeout(() => {
+          setMensajeCompra("");
+          setDetallePedido(null);
+          setEstadoPedido("");
+        }, 4000);
+      } else {
+        alert(data.message || "Error al confirmar compra");
+      }
+    } catch (err) {
+      console.error(err);
+      alert("Error de servidor");
+    }
   };
 
+  // ---------------------------
+  // Recomendados
+  // ---------------------------
   useEffect(() => {
     fetch("https://hermanos-jota-itba-mern.onrender.com/api/productos")
       .then((res) => res.json())
@@ -52,15 +85,14 @@ function Carrito() {
 
   useEffect(() => {
     if (productos.length === 0) return;
-    const intervalo = setInterval(() => {
-      setIndice((prev) => (prev + 3) % productos.length);
-    }, 5000);
+    const intervalo = setInterval(
+      () => setIndice((prev) => (prev + 3) % productos.length),
+      5000
+    );
     return () => clearInterval(intervalo);
   }, [productos]);
 
-  const siguiente = () =>
-    setIndice((prev) => (prev + 3) % productos.length);
-
+  const siguiente = () => setIndice((prev) => (prev + 3) % productos.length);
   const anterior = () =>
     setIndice((prev) => (prev - 3 + productos.length) % productos.length);
 
@@ -70,34 +102,35 @@ function Carrito() {
     <div className="carrito-wrapper">
       <h2 className="carrito-titulo">🛍️ Carrito de Compras</h2>
 
-      {/* 🔥 MENSAJE DE COMPRA */}
+      {/* 🔥 Cartel de compra */}
       {mensajeCompra && (
         <div className="carrito-mensaje">
           <h3>{mensajeCompra}</h3>
 
-          {/* 🔥 DETALLE DEL PEDIDO */}
           {detallePedido && (
             <div className="pedido-detalle">
               {detallePedido.map((item) => (
                 <div key={item._id} className="pedido-item">
-                  <span>{item.quantity} × {item.nombre}</span>
-                  <span>${(item.precio * item.quantity).toLocaleString("es-AR")}</span>
+                  <span>
+                    {item.quantity} × {item.nombre}
+                  </span>
+                  <span>
+                    ${(item.precio * item.quantity).toLocaleString("es-AR")}
+                  </span>
                 </div>
               ))}
+
               <div className="pedido-total">
-                <b>Total:</b>
-                <b>${total.toLocaleString("es-AR")}</b>
+                <b>Total:</b> <b>${total.toLocaleString("es-AR")}</b>
               </div>
             </div>
           )}
 
-          {/* 🔥 ESTADO DEL PEDIDO */}
-          {estadoPedido && (
-            <p className="pedido-estado">{estadoPedido}</p>
-          )}
+          {estadoPedido && <p className="pedido-estado">{estadoPedido}</p>}
         </div>
       )}
 
+      {/* Si el carrito está vacío */}
       {cartItems.length === 0 ? (
         <div className="carrito-vacio">
           <p className="carrito-empty">Tu carrito está vacío.</p>
@@ -108,12 +141,11 @@ function Carrito() {
             <div className="recomendados-carousel">
               {recomendados.map((producto) => (
                 <div key={producto._id} className="recomendado-card">
-                  <img src={producto.ruta} alt={producto.nombre} />
+                  <img src={producto.ruta} />
                   <h4>{producto.nombre}</h4>
-                  <p>${producto.precio.toLocaleString("es-AR")}</p>
-
+                  <p>${producto.precio}</p>
                   <button onClick={() => addItemToCart(producto)}>
-                    🛒 Añadir al carrito
+                    Añadir al carrito
                   </button>
                 </div>
               ))}
@@ -126,18 +158,17 @@ function Carrito() {
           </div>
         </div>
       ) : (
+        // Si hay productos
         <div className="carrito-layout">
           <ul className="carrito-list">
             {cartItems.map((item) => (
               <li key={item._id} className="carrito-item">
-                <img src={item.ruta} alt={item.nombre} className="carrito-img" />
-
+                <img src={item.ruta} className="carrito-img" />
                 <div className="carrito-info">
                   <h4>{item.nombre}</h4>
-                  <p className="carrito-descripcion">{item.descripcion}</p>
 
                   <p className="precio">
-                    <b>${item.precio.toLocaleString("es-AR")}</b>
+                    ${item.precio.toLocaleString("es-AR")}
                   </p>
 
                   <div className="cantidad-row">
@@ -208,6 +239,3 @@ function Carrito() {
 }
 
 export default Carrito;
-
-
-

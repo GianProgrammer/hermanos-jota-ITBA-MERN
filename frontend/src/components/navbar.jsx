@@ -81,7 +81,7 @@ function NavBar() {
             {menuOpen && (
               <div className="user-dropdown">
                 <Link to="/profile">Mi perfil</Link>
-
+                <Link to="/mis-pedidos">Mis pedidos</Link>
                 <button
                   onClick={() => {
                     logout();        // vacía el contexto correctamente

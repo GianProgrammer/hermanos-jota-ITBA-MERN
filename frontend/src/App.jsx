@@ -12,6 +12,8 @@ import Carrito from "./Pages/Carrito";
 import CrearProducto from "./Pages/Admin";
 import Login from "./Pages/Login";
 import Register from "./Pages/Registrarse";
+import MisPedidos from "./Pages/Mispedidos";
+
 
 function App() {
   const [carrito, setCarrito] = useState([]);
@@ -38,6 +40,8 @@ function App() {
         <Route path="/productos" element={<Productos />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
+        <Route path="/mis-pedidos" element={<MisPedidos />} />
+        
 
         <Route 
           path="/producto/:id"

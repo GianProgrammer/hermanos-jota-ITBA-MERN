@@ -27,7 +27,7 @@ function Contacto() {
     e.preventDefault();
 
     try {
-      const response = await fetch("https://hermanos-jota-itba-mern.onrender.com/api/contacto", {
+      const response = await fetch("https://hermanos-jota-itba-mern-34lp.onrender.com/api/contacto", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

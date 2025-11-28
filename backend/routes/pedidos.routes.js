@@ -1,3 +1,4 @@
+// routes/pedido.routes.js
 import express from "express";
 import Pedido from "../models/pedido.js";
 import { authenticateToken } from "../middleware/authentication.js";
@@ -20,7 +21,7 @@ router.post("/", authenticateToken, async (req, res) => {
     res.status(201).json(saved);
 
   } catch (error) {
-    console.error("Error creando pedido:", error);
+    console.error("❌ Error creando pedido:", error);
     res.status(500).json({ message: "Error al crear el pedido" });
   }
 });
@@ -30,7 +31,9 @@ router.get("/mios", authenticateToken, async (req, res) => {
   try {
     const pedidos = await Pedido.find({ userId: req.user.id }).sort({ createdAt: -1 });
     res.status(200).json(pedidos);
+
   } catch (error) {
+    console.error("❌ Error obteniendo pedidos:", error);
     res.status(500).json({ message: "Error obteniendo pedidos" });
   }
 });

@@ -10,7 +10,7 @@ function ListaProductos({ titulo, limite }) {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    fetch("https://hermanos-jota-itba-mern.onrender.com/api/productos")
+    fetch("https://hermanos-jota-itba-mern-34lp.onrender.com/api/productos")
       .then((res) => {
         if (!res.ok) throw new Error("Error al cargar los productos");
         return res.json();
