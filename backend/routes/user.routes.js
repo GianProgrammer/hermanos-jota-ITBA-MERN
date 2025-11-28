@@ -7,7 +7,7 @@ import { authenticateToken } from '../middleware/authentication.js';
 const router = express.Router();
 
 // ---------------------------------------------
-// REGISTRO
+// REGISTRO (original)
 // ---------------------------------------------
 router.post('/register', async (req, res) => {
   try {
@@ -18,14 +18,12 @@ router.post('/register', async (req, res) => {
       return res.status(400).json({ message: 'El email o nombre de usuario ya está en uso.' });
     }
 
-    const salt = await bcrypt.genSalt(10);
-    const hashedPassword = await bcrypt.hash(password, salt);
+    const hashedPassword = await bcrypt.hash(password, 10);
 
     const newUser = new User({
       username,
       email,
       password: hashedPassword,
-      role: "user" 
     });
 
     const savedUser = await newUser.save();
@@ -43,7 +41,7 @@ router.post('/register', async (req, res) => {
 
 
 // ---------------------------------------------
-// LOGIN (📌 SOLO HEADER, SIN COOKIES)
+// LOGIN (original)
 // ---------------------------------------------
 router.post("/login", async (req, res) => {
   try {
@@ -63,14 +61,12 @@ router.post("/login", async (req, res) => {
       return res.status(400).json({ message: "Credenciales inválidas" });
     }
 
-    // ⬇ GENERAR JWT (para Header)
     const token = jwt.sign(
-      { id: user.id, email: user.email, role: user.role },
+      { id: user.id, email: user.email },
       process.env.JWT_SECRET,
       { expiresIn: "1h" }
     );
 
-    // ⬇ NO MÁS COOKIES, SOLO JSON
     res.status(200).json({
       token,
       user: {
@@ -81,19 +77,17 @@ router.post("/login", async (req, res) => {
     });
 
   } catch (error) {
-    console.error("❌ Error en /login:", error);
     res.status(500).json({ message: "Error interno del servidor" });
   }
 });
 
 
 // ---------------------------------------------
-// PROFILE (ruta protegida)
+// PROFILE (original)
 // ---------------------------------------------
 router.get('/profile', authenticateToken, async (req, res) => {
   try {
     const user = await User.findById(req.user.id).select('-password');
-
     if (!user) return res.status(404).json({ message: "Usuario no encontrado" });
 
     res.status(200).json(user);
@@ -104,3 +98,4 @@ router.get('/profile', authenticateToken, async (req, res) => {
 });
 
 export default router;
+
