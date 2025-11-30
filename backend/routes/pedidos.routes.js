@@ -9,13 +9,23 @@ const router = express.Router();
 router.post("/", authenticateToken, async (req, res) => {
   try {
     const { productos, total } = req.body;
+    console.log("📦 Productos recibidos en el backend:");
+    console.log(JSON.stringify(productos, null, 2));
+    
+      // 🛠 Normalización
+      const productosNormalizados = productos.map((p) => ({
+        _id: p._id,
+        nombre: p.nombre || p.name,     // aceptar ambos
+        precio: p.precio || p.price,    // aceptar ambos
+        quantity: p.quantity
+      }));
 
-    const nuevoPedido = new Pedido({
-      userId: req.user.id,
-      productos,
-      total,
-      estado: "Confirmado",
-    });
+      const nuevoPedido = new Pedido({
+        userId: req.user.id,
+        productos: productosNormalizados,
+        total,
+        estado: "Confirmado"
+      });
 
     const saved = await nuevoPedido.save();
     res.status(201).json(saved);

@@ -50,6 +50,7 @@ function Carrito() {
       if (res.ok) {
         setMensajeCompra("¡Compra realizada con éxito! 🎉");
         setDetallePedido(cartItems);
+        console.log(cartItems);
         setEstadoPedido("Pedido confirmado y registrado ✔️");
 
         clearCart();

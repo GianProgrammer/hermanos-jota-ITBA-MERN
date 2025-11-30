@@ -1,5 +1,5 @@
 import express from 'express';
-import User from '../models/User.js';
+import User from '../models/UserM.js';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import { authenticateToken } from '../middleware/authentication.js';
@@ -24,20 +24,23 @@ router.post('/register', async (req, res) => {
       username,
       email,
       password: hashedPassword,
+      role: "usuario"
     });
 
     const savedUser = await newUser.save();
 
     res.status(201).json({
-      _id: savedUser.id,
+      id: savedUser.id,
       username: savedUser.username,
       email: savedUser.email,
+      role: savedUser.role,  // 👈 ahora sí va
     });
 
   } catch (error) {
     res.status(500).json({ message: 'Error interno del servidor', error });
   }
 });
+
 
 
 // ---------------------------------------------
@@ -62,7 +65,7 @@ router.post("/login", async (req, res) => {
     }
 
     const token = jwt.sign(
-      { id: user.id, email: user.email },
+      { id: user.id, email: user.email, role: user.role},
       process.env.JWT_SECRET,
       { expiresIn: "1h" }
     );
@@ -73,6 +76,7 @@ router.post("/login", async (req, res) => {
         id: user.id,
         username: user.username,
         email: user.email,
+        role: user.role
       }
     });
 

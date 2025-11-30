@@ -17,8 +17,44 @@ function MisPedidos() {
           }
         );
 
-        const data = await res.json();
-        setPedidos(Array.isArray(data) ? data : []);
+        const pedidosData = await res.json();
+
+        // Enriquecer con datos de cada producto
+        const pedidosConProductos = await Promise.all(
+          pedidosData.map(async (pedido) => {
+            const productosCompletos = await Promise.all(
+              pedido.productos.map(async (p) => {
+                try {
+                  const resp = await fetch(
+                    `https://hermanos-jota-itba-mern-34lp.onrender.com/api/productos/${p._id}`
+                  );
+
+                  const producto = await resp.json();
+
+                  return {
+                    ...producto,
+                    quantity: p.quantity,
+                  };
+                } catch (err) {
+                  console.error("Error cargando producto:", err);
+                  return {
+                    _id: p._id,
+                    nombre: "Producto desconocido",
+                    precio: 0,
+                    quantity: p.quantity,
+                  };
+                }
+              })
+            );
+
+            return {
+              ...pedido,
+              productos: productosCompletos,
+            };
+          })
+        );
+
+        setPedidos(pedidosConProductos);
       } catch (error) {
         console.error("Error cargando pedidos:", error);
       } finally {
@@ -54,21 +90,20 @@ function MisPedidos() {
 
           <div className="productos-lista">
             {pedido.productos.map((prod) => {
-              const name = prod.name || prod.nombre || "Producto";
-              const price = prod.price ?? prod.precio ?? 0;
-              const qty = prod.quantity ?? 1;
+              const subtotal = prod.precio * prod.quantity;
 
               return (
                 <div className="producto-item" key={prod._id}>
                   <div className="producto-info">
-                    <p className="producto-nombre">{name}</p>
+                    <p className="producto-nombre">{prod.nombre}</p>
+
                     <p className="producto-cantidad">
-                      {qty} × ${price.toLocaleString("es-AR")}
+                      {prod.quantity} × ${prod.precio.toLocaleString("es-AR")}
                     </p>
                   </div>
 
                   <p className="producto-subtotal">
-                    ${(qty * price).toLocaleString("es-AR")}
+                    ${subtotal.toLocaleString("es-AR")}
                   </p>
                 </div>
               );
