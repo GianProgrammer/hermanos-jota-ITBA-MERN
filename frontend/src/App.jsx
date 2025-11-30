@@ -41,7 +41,7 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/mis-pedidos" element={<MisPedidos />} />
-        
+        <Route path="/productos/:id" element={<DetalleProducto />} />
 
         <Route 
           path="/producto/:id"
