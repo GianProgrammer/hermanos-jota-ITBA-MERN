@@ -2,6 +2,7 @@
 import express from "express";
 import Pedido from "../models/pedido.js";
 import { authenticateToken } from "../middleware/authentication.js";
+import { isAdmin } from "../middleware/isadmin.js";
 
 const router = express.Router();
 
@@ -39,11 +40,30 @@ router.post("/", authenticateToken, async (req, res) => {
 // Obtener pedidos del usuario
 router.get("/mios", authenticateToken, async (req, res) => {
   try {
-    const pedidos = await Pedido.find({ userId: req.user.id }).sort({ createdAt: -1 });
+
+    // 🛑 Si el token está mal, detener ejecución
+    if (!req.user || !req.user.id) {
+      return res.status(401).json({ message: "No autorizado" });
+    }
+
+    const pedidos = await Pedido.find({ userId: req.user.id })
+      .sort({ createdAt: -1 });
+
     res.status(200).json(pedidos);
 
   } catch (error) {
     console.error("❌ Error obteniendo pedidos:", error);
+    res.status(500).json({ message: "Error obteniendo pedidos" });
+  }
+});
+
+// Obtener todos los pedidos (ADMIN)
+router.get("/todos", authenticateToken, isAdmin, async (req, res) => {
+  try {
+    const pedidos = await Pedido.find().sort({ createdAt: -1 });
+    res.status(200).json(pedidos);
+  } catch (error) {
+    console.error("❌ Error obteniendo todos los pedidos:", error);
     res.status(500).json({ message: "Error obteniendo pedidos" });
   }
 });

@@ -1,6 +1,6 @@
 // src/Pages/Login.jsx
 import { useState, useContext } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { AuthContext } from "../auth/AuthContext";
 import "../styles/login.css";
 
@@ -16,6 +16,8 @@ function Login() {
   const [errorMsg, setErrorMsg] = useState("");
 
   const navigate = useNavigate();
+  const location = useLocation();
+  const sessionExpired = location.search.includes("expired=true");
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -31,11 +33,14 @@ function Login() {
     setLoading(true);
 
     try {
-      const response = await fetch("https://hermanos-jota-itba-mern-34lp.onrender.com/api/users/login", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(formData),
-      });
+      const response = await fetch(
+        "https://hermanos-jota-itba-mern-34lp.onrender.com/api/users/login",
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(formData),
+        }
+      );
 
       const data = await response.json();
 
@@ -59,8 +64,13 @@ function Login() {
       <div className="login-page">
         <h1>Iniciar sesión</h1>
 
-        <form onSubmit={handleSubmit} className="login-form">
+        {sessionExpired && (
+          <div className="alerta-expirada">
+            🔐 Tu sesión expiró. Por favor iniciá sesión nuevamente.
+          </div>
+        )}
 
+        <form onSubmit={handleSubmit} className="login-form">
           <div className="form-group">
             <label htmlFor="email">Email:</label>
             <input
@@ -99,6 +109,7 @@ function Login() {
 }
 
 export default Login;
+
 
 
 

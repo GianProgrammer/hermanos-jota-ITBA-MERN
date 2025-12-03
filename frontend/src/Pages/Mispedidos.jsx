@@ -17,7 +17,22 @@ function MisPedidos() {
           }
         );
 
+        // 🛑 SI EL TOKEN EXPIRÓ O ES INVÁLIDO
+        if (res.status === 401) {
+          localStorage.removeItem("token");
+          window.location.href = "/login?expired=true";
+          return;
+        }
+
         const pedidosData = await res.json();
+
+        // 🛡 Si NO es un array → evitar que React explote
+        if (!Array.isArray(pedidosData)) {
+          console.error("Formato inesperado:", pedidosData);
+          setPedidos([]);
+          setLoading(false);
+          return;
+        }
 
         // Enriquecer con datos de cada producto
         const pedidosConProductos = await Promise.all(
@@ -116,3 +131,4 @@ function MisPedidos() {
 }
 
 export default MisPedidos;
+

@@ -11,6 +11,8 @@ const router = express.Router();
 // ---------------------------------------------
 router.post('/register', async (req, res) => {
   try {
+    console.log("📩 BODY RECIBIDO:", req.body);
+
     const { username, email, password } = req.body;
 
     const existingUser = await User.findOne({ $or: [{ email }, { username }] });
@@ -24,24 +26,24 @@ router.post('/register', async (req, res) => {
       username,
       email,
       password: hashedPassword,
-      role: "usuario"
+      role: "usuario",   // 👈 fijo, siempre usuario
     });
 
     const savedUser = await newUser.save();
+    console.log("✅ GUARDADO EN MONGO:", savedUser);
 
     res.status(201).json({
       id: savedUser.id,
       username: savedUser.username,
       email: savedUser.email,
-      role: savedUser.role,  // 👈 ahora sí va
+      role: savedUser.role,
     });
 
   } catch (error) {
+    console.error(error);
     res.status(500).json({ message: 'Error interno del servidor', error });
   }
 });
-
-
 
 // ---------------------------------------------
 // LOGIN (original)
@@ -102,4 +104,5 @@ router.get('/profile', authenticateToken, async (req, res) => {
 });
 
 export default router;
+
 

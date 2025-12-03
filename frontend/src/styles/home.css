@@ -11,7 +11,7 @@
 }
 
 .hero-content {
-  color: white;
+  color: white ;
   font-family: 'Playfair Display', serif;
   max-width: 900px;
   padding: 0 20px;
@@ -23,7 +23,7 @@
   letter-spacing: 0.02em;
   text-align: center;
   margin-bottom: 20px;
-
+  color: #ffffff !important;
   /* Ajuste de tamaño responsivo */
   font-size: clamp(22px, 2.5vw, 36px);  
   line-height: 1.3;

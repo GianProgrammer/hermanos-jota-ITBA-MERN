@@ -19,7 +19,7 @@ function NavBar() {
   let closeTimeout;
 
   // ---------------------------
-  // 🔍 BUSCAR CUANDO PRESIONA ENTER
+  // 🔍 BUSCAR
   // ---------------------------
   const handleSearch = async () => {
     const query = search.trim().toLowerCase();
@@ -35,11 +35,8 @@ function NavBar() {
         p.nombre?.toLowerCase().includes(query)
       );
 
-      if (encontrado) {
-        navigate(`/productos/${encontrado._id}`);
-      } else {
-        alert("Producto no encontrado");
-      }
+      if (encontrado) navigate(`/productos/${encontrado._id}`);
+      else alert("Producto no encontrado");
 
       setSearch("");
       setShowSuggestions(false);
@@ -53,7 +50,7 @@ function NavBar() {
   };
 
   // ---------------------------
-  // 🔤 SUGERENCIAS EN TIEMPO REAL
+  // 🔤 SUGERENCIAS
   // ---------------------------
   const handleChange = async (e) => {
     const value = e.target.value;
@@ -83,13 +80,11 @@ function NavBar() {
   };
 
   // ---------------------------
-  // 👆 Cerrar sugerencias si clickea afuera
+  // Cerrar sugerencias
   // ---------------------------
   useEffect(() => {
     const handleClickOutside = (e) => {
-      if (!e.target.closest(".navbar-search")) {
-        setShowSuggestions(false);
-      }
+      if (!e.target.closest(".navbar-search")) setShowSuggestions(false);
     };
 
     document.addEventListener("click", handleClickOutside);
@@ -97,7 +92,7 @@ function NavBar() {
   }, []);
 
   // ---------------------------
-  // 🛒 Calcular carrito
+  // 🛒 CARRITO COUNT
   // ---------------------------
   const carritoCount = cartItems.reduce(
     (acc, item) => acc + item.quantity,
@@ -105,7 +100,7 @@ function NavBar() {
   );
 
   // ---------------------------
-  // USER MENU (hover)
+  // MENU USUARIO
   // ---------------------------
   const handleMouseEnter = () => {
     clearTimeout(closeTimeout);
@@ -113,13 +108,12 @@ function NavBar() {
   };
 
   const handleMouseLeave = () => {
-    closeTimeout = setTimeout(() => {
-      setMenuOpen(false);
-    }, 250);
+    closeTimeout = setTimeout(() => setMenuOpen(false), 250);
   };
 
   return (
     <header className="navbar">
+
       {/* IZQUIERDA */}
       <div className="navbar-left">
         <Link to="/" className="navbar-logo">
@@ -137,7 +131,7 @@ function NavBar() {
 
       {/* DERECHA */}
       <div className="navbar-right">
-        
+
         {/* 🔍 BUSCADOR */}
         <div className="navbar-search">
           <input
@@ -148,7 +142,6 @@ function NavBar() {
           />
           <span className="icon" onClick={handleSearch}>🔍</span>
 
-          {/* 🔥 SUGERENCIAS */}
           {showSuggestions && suggestions.length > 0 && (
             <div className="search-suggestions">
               {suggestions.map((p) => (
@@ -168,7 +161,7 @@ function NavBar() {
           )}
         </div>
 
-        {/* LOGIN / USER */}
+        {/* 🔐 LOGIN / USER */}
         {!user ? (
           <>
             <Link to="/login" className="navbar-btn">Ingresar</Link>
@@ -187,8 +180,20 @@ function NavBar() {
 
             {menuOpen && (
               <div className="user-dropdown">
+
+                {/* 🟢 MI PERFIL (para todos los usuarios logueados) */}
                 <Link to="/profile">Mi perfil</Link>
-                <Link to="/mis-pedidos">Mis pedidos</Link>
+
+                {/* 🟢 MIS PEDIDOS */}
+                {user.role === "usuario" && (
+                  <Link to="/mis-pedidos">Mis pedidos</Link>)
+                }
+                
+                {/* 🔴 SOLO ADMIN */}
+                {user.role === "admin" && (
+                  <Link to="/admin">Panel Admin</Link>
+                )}
+
                 <button
                   onClick={() => {
                     logout();
@@ -202,16 +207,19 @@ function NavBar() {
           </div>
         )}
 
-        {/* CARRITO */}
-        <Link to="/carrito" className="navbar-cart">
-          🛒<span className="cart-count">{carritoCount}</span>
-        </Link>
+        {/* 🛒 SOLO USUARIOS LOGUEADOS */}
+        {user && user.role === "usuario" && (
+          <Link to="/carrito" className="navbar-cart">
+            🛒<span className="cart-count">{carritoCount}</span>
+          </Link>
+        )}
       </div>
     </header>
   );
 }
 
 export default NavBar;
+
 
 
 

@@ -49,10 +49,12 @@ function Register() {
           username: formData.username,
           email: formData.email,
           password: formData.password,
+          role: "usuario", // 👈 Siempre registra como usuario
         }),
       });
 
       const data = await response.json();
+      
       if (!response.ok) throw new Error(data.message || "Error al registrarse.");
 
       setSuccessMsg("Registro exitoso. Redirigiendo...");
@@ -125,6 +127,7 @@ function Register() {
             />
           </div>
 
+
           {errorMsg && <p className="error-msg">{errorMsg}</p>}
           {successMsg && <p className="success-msg">{successMsg}</p>}
 
@@ -138,3 +141,5 @@ function Register() {
 }
 
 export default Register;
+
+

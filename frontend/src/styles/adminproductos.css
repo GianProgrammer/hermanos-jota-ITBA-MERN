@@ -1,0 +1,188 @@
+/* ---------------------------
+   ESTILO GENERAL DEL PANEL
+----------------------------*/
+.admin-productos-container {
+  max-width: 1200px;
+  margin: 40px auto;
+  padding: 20px;
+  font-family: "Poppins", sans-serif;
+}
+
+h1 {
+  text-align: center;
+  margin-bottom: 30px;
+  font-size: 34px;
+  font-weight: 600;
+  color: #4a2e1f;
+}
+
+h2 {
+  font-size: 22px;
+  margin-bottom: 20px;
+  color: #4a2e1f;
+}
+
+/* ---------------------------
+   FORMULARIO
+----------------------------*/
+.admin-form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  background: #fff7f0;
+  border: 1px solid #e0c7b5;
+  border-radius: 12px;
+  padding: 25px;
+  margin-bottom: 40px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+}
+
+.admin-form input,
+.admin-form textarea {
+  padding: 12px;
+  border-radius: 8px;
+  border: 1px solid #c9b3a8;
+  font-size: 15px;
+  outline: none;
+  transition: all 0.2s ease;
+  background: #fff;
+}
+
+.admin-form input:focus,
+.admin-form textarea:focus {
+  border-color: #a46a3f;
+  box-shadow: 0 0 0 2px rgba(164, 106, 63, 0.2);
+}
+
+.admin-form textarea {
+  height: 75px;
+  resize: none;
+}
+
+/* Botón principal */
+.admin-form button {
+  background: #a46a3f;
+  border: none;
+  color: white;
+  padding: 12px;
+  border-radius: 10px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.2s ease;
+}
+
+.admin-form button:hover {
+  background: #8d5830;
+}
+
+/* Botón cancelar edición */
+.btn-cancelar {
+  background: #999 !important;
+  margin-top: 6px;
+}
+
+.btn-cancelar:hover {
+  background: #777 !important;
+}
+
+/* ---------------------------
+   GRID DE PRODUCTOS
+----------------------------*/
+.admin-products-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 25px;
+  margin-top: 30px;
+}
+
+/* ---------------------------
+   CARD DE PRODUCTO
+----------------------------*/
+.admin-product-card {
+  background: white;
+  border-radius: 14px;
+  padding: 18px;
+  border: 1px solid #e8d7c9;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+  text-align: center;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.admin-product-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 10px 20px rgba(0,0,0,0.12);
+}
+
+.admin-product-card img {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+  border-radius: 10px;
+  margin-bottom: 12px;
+}
+
+.admin-product-card h3 {
+  font-size: 20px;
+  color: #4a2e1f;
+  font-weight: 600;
+  margin: 8px 0;
+}
+
+.admin-product-card p {
+  font-size: 18px;
+  font-weight: bold;
+  color: #a46a3f;
+  margin-bottom: 12px;
+}
+
+/* ---------------------------
+   ACCIONES (BOTONES)
+----------------------------*/
+.admin-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.btn-edit,
+.btn-delete {
+  padding: 10px;
+  border-radius: 8px;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  border: none;
+  transition: 0.2s ease;
+}
+
+.btn-edit {
+  background: #e8b07a;
+  color: #4a2e1f;
+}
+
+.btn-edit:hover {
+  background: #d59c62;
+}
+
+.btn-delete {
+  background: #d26a5d;
+  color: white;
+}
+
+.btn-delete:hover {
+  background: #b55348;
+}
+
+/* ---------------------------
+   RESPONSIVE
+----------------------------*/
+@media (max-width: 768px) {
+  .admin-form {
+    padding: 15px;
+  }
+
+  .admin-productos-container {
+    padding: 10px;
+  }
+}

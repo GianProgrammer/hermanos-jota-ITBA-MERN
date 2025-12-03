@@ -1,65 +1,109 @@
 // src/App.js
 import { useContext, useState } from "react";
 import { Routes, Route } from "react-router-dom";
-import {AuthContext} from "./auth/AuthContext";
+import { AuthContext } from "./auth/AuthContext";
+
 import NavBar from "./components/navbar";
 import Footer from "./components/Footer";
+
 import Home from "./Pages/home";
 import Productos from "./Pages/productos";
 import Contacto from "./Pages/contactos";
 import DetalleProducto from "./Pages/Detalleproducto";
+
 import Carrito from "./Pages/Carrito";
-import CrearProducto from "./Pages/Admin";
+import MisPedidos from "./Pages/Mispedidos";
+
 import Login from "./Pages/Login";
 import Register from "./Pages/Registrarse";
-import MisPedidos from "./Pages/Mispedidos";
+
+// 👉 ESTAS son las TRES páginas admin
+import CrearProducto from "./Pages/Admin";
+import AdminProductos from "./Pages/Adminproductos";
+import AdminPedidos from "./Pages/Adminpedidos";
+
+// 👇 Protección
+import { ProtectedRoute, AdminRoute } from "./auth/ProtectedRoute";
 
 
 function App() {
   const [carrito, setCarrito] = useState([]);
 
-  // 👇 Extraemos el usuario y el logout desde el AuthContext
   const { user, logout } = useContext(AuthContext);
-
-  const addToCarrito = (producto) => {
-    setCarrito([...carrito, producto]);
-  };
 
   return (
     <div className="App">
 
-      {/* 👇 Ahora NAVBAR recibe user y logout */}
       <NavBar 
-        carritoCount={carrito.length} 
-        user={user} 
-        onLogout={logout} 
+        carritoCount={carrito.length}
+        user={user}
+        onLogout={logout}
       />
 
       <Routes>
+
+        {/* ------------------------ */}
+        {/*        PÚBLICAS          */}
+        {/* ------------------------ */}
         <Route path="/" element={<Home />} />
         <Route path="/productos" element={<Productos />} />
+        <Route path="/producto/:id" element={<DetalleProducto />} />
+        <Route path="/contacto" element={<Contacto />} />
+
+        {/* Auth */}
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
-        <Route path="/mis-pedidos" element={<MisPedidos />} />
-        <Route path="/productos/:id" element={<DetalleProducto />} />
 
-        <Route 
-          path="/producto/:id"
-          element={<DetalleProducto addToCarrito={addToCarrito} />}
+        {/* ------------------------ */}
+        {/*   SOLO USUARIO LOGUEADO  */}
+        {/* ------------------------ */}
+        <Route
+          path="/carrito"
+          element={
+            <ProtectedRoute>
+              <Carrito carrito={carrito} setCarrito={setCarrito} />
+            </ProtectedRoute>
+          }
         />
 
-        <Route 
-          path="/contacto" 
-          element={<Contacto />} 
+        <Route
+          path="/mis-pedidos"
+          element={
+            <ProtectedRoute>
+              <MisPedidos />
+            </ProtectedRoute>
+          }
         />
 
-        <Route 
-          path="/carrito" 
-          element={<Carrito carrito={carrito} setCarrito={setCarrito} />}
+        {/* ------------------------ */}
+        {/*        SOLO ADMIN         */}
+        {/* ------------------------ */}
+        <Route
+          path="/admin"
+          element={
+            <AdminRoute>
+              <CrearProducto />
+            </AdminRoute>
+          }
         />
 
-        {/* 👉 Solo ADMIN (más adelante lo protegemos) */}
-        <Route path="/admin/crear-producto" element={<CrearProducto/>} />
+        <Route
+          path="/admin/productos"
+          element={
+            <AdminRoute>
+              <AdminProductos />
+            </AdminRoute>
+          }
+        />
+
+        <Route
+          path="/admin/pedidos"
+          element={
+            <AdminRoute>
+              <AdminPedidos />
+            </AdminRoute>
+          }
+        />
 
       </Routes>
 
@@ -69,4 +113,3 @@ function App() {
 }
 
 export default App;
-

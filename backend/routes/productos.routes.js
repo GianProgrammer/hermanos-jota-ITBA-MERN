@@ -1,6 +1,7 @@
 // src/routes/productos.routes.js
 import express from "express";
 import Producto from "../models/producto.js";
+import { isAdmin } from "../middleware/isadmin.js";
 
 const router = express.Router();
 
@@ -74,7 +75,7 @@ router.get("/:identificador", async (req, res) => {
 });
 
 // ---------- agregar un nuevo producto ----------
-router.post("/", async (req, res) => {
+router.post("/", isAdmin, async (req, res) => {
   try {
     const body = { ...req.body };
     if (body.precio != null) body.precio = Number(body.precio);
@@ -97,7 +98,7 @@ router.post("/", async (req, res) => {
 });
 
 // ---------- actualizar un producto por _id o id ----------
-router.put("/:identificador", async (req, res) => {
+router.put("/:identificador", isAdmin, async (req, res) => {
   try {
     const { identificador } = req.params;
     const body = { ...req.body };
@@ -153,7 +154,7 @@ router.put("/:identificador", async (req, res) => {
 });
 
 // ---------- eliminar un producto por _id o id ----------
-router.delete("/:identificador", async (req, res) => {
+router.delete("/:identificador", isAdmin, async (req, res) => {
   try {
     const { identificador } = req.params;
 

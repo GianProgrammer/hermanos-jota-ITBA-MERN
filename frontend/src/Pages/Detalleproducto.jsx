@@ -1,4 +1,4 @@
-import { useParams, Link, useNavigate } from "react-router-dom";
+import { useParams, Link} from "react-router-dom";
 import { useState, useEffect, useContext } from "react";
 import { CartContext } from "../auth/CartContext.js";
 import "../styles/producto.css";
@@ -7,7 +7,6 @@ const API_BASE = "https://hermanos-jota-itba-mern-34lp.onrender.com/api/producto
 
 function DetalleProducto() {
   const { id } = useParams();
-  const navigate = useNavigate();
   const [producto, setProducto] = useState(null);
   const [loading, setLoading] = useState(true);
 
@@ -27,23 +26,6 @@ function DetalleProducto() {
       });
   }, [id]);
 
-  const handleEliminar = async () => {
-    const confirm = window.confirm("¿Estás seguro que quieres eliminar este producto?");
-    if (!confirm) return;
-
-    try {
-      const res = await fetch(`${API_BASE}/${id}`, { method: "DELETE" });
-      if (res.ok) {
-        alert("Producto eliminado correctamente");
-        navigate("/productos");
-      } else {
-        alert("Error al eliminar el producto");
-      }
-    } catch (error) {
-      console.error(error);
-      alert("Error al eliminar el producto");
-    }
-  };
 
   if (loading) return <p style={{ textAlign: "center", marginTop: "50px" }}>Cargando...</p>;
   if (!producto) return <p style={{ textAlign: "center", marginTop: "50px" }}>Producto no encontrado</p>;
@@ -63,10 +45,6 @@ function DetalleProducto() {
           {/* 🔥 Usa el contexto para agregar */}
           <button className="btn" onClick={() => addItemToCart(producto)}>
             🛒 Añadir al Carrito
-          </button>
-
-          <button className="btn-eliminar" onClick={handleEliminar}>
-            🗑 Eliminar
           </button>
 
           <Link to="/productos" className="btn-volver">
