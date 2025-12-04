@@ -43,11 +43,11 @@ router.get("/mios", authenticateToken, async (req, res) => {
   try {
 
     // 🛑 Si el token está mal, detener ejecución
-    if (!req.user || !req.user._id) {
+    if (!req.user || !req.user.id) {
       return res.status(401).json({ message: "No autorizado" });
     }
 
-    const pedidos = await Pedido.find({ userId: req.user._id })
+    const pedidos = await Pedido.find({ userId: req.user.id })
       .sort({ createdAt: -1 });
 
     res.status(200).json(pedidos);
@@ -57,6 +57,7 @@ router.get("/mios", authenticateToken, async (req, res) => {
     res.status(500).json({ message: "Error obteniendo pedidos" });
   }
 });
+
 
 // Obtener todos los pedidos (ADMIN)
 router.get("/todos", authenticateToken, isAdmin, async (req, res) => {

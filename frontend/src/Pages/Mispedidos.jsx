@@ -37,31 +37,12 @@ function MisPedidos() {
         // Enriquecer con datos de cada producto
         const pedidosConProductos = await Promise.all(
           pedidosData.map(async (pedido) => {
-            const productosCompletos = await Promise.all(
-              pedido.productos.map(async (p) => {
-                try {
-                  const resp = await fetch(
-                    `https://hermanos-jota-itba-mern-34lp.onrender.com/api/productos/${p._id}`
-                  );
-
-                  const producto = await resp.json();
-
-                  return {
-                    ...producto,
-                    quantity: p.quantity,
-                  };
-                } catch (err) {
-                  console.error("Error cargando producto:", err);
-                  return {
-                    _id: p._id,
-                    nombre: "Producto desconocido",
-                    precio: 0,
-                    quantity: p.quantity,
-                  };
-                }
-              })
-            );
-
+          const productosCompletos = pedido.productos.map((p) => ({
+            _id: p._id,
+            nombre: p.nombre,
+            precio: p.precio,
+            quantity: p.quantity,
+          }));
             return {
               ...pedido,
               productos: productosCompletos,
@@ -131,4 +112,5 @@ function MisPedidos() {
 }
 
 export default MisPedidos;
+
 
