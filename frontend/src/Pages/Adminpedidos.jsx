@@ -38,7 +38,9 @@ export default function AdminPedidos() {
       {pedidos.map((p) => (
         <div key={p._id} className="pedido-card">
           <h3>Pedido #{p._id}</h3>
-          <p>Usuario: {p.userId}</p>
+          <p>Usuario: {p.username}</p>
+          <p>Email: {p.email}</p>
+          <p>Estado: {p.estado}</p>
           <p>Total: ${p.total}</p>
           <p>Fecha: {new Date(p.createdAt).toLocaleString()}</p>
 

@@ -2,7 +2,9 @@ import mongoose from "mongoose";
 
 const PedidoSchema = new mongoose.Schema(
   {
-    userId: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true },
+    userId: { type: mongoose.Schema.Types.ObjectId, ref: "UserM", required: true },
+    username: String,   // 👍 agregar
+    email: String,      // 👍 agregar
     productos: [
       {
         _id: String,

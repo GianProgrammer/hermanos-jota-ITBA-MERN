@@ -1,12 +1,15 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import "../styles/adminproductos.css";
+import { AuthContext } from "../auth/AuthContext.js";
+
 
 const API = "https://hermanos-jota-itba-mern-34lp.onrender.com/api/productos";
 
 export default function AdminProductos() {
   const [productos, setProductos] = useState([]);
-  const [editando, setEditando] = useState(null); // ID del producto que se edita
+  const [editando, setEditando] = useState(null);
+  const { token } = useContext(AuthContext);
   const [form, setForm] = useState({
     ruta: "",
     nombre: "",
@@ -17,9 +20,6 @@ export default function AdminProductos() {
     precio: "",
   });
 
-  // -------------------------
-  // CARGAR PRODUCTOS
-  // -------------------------
   const cargarProductos = async () => {
     const res = await fetch(API);
     const data = await res.json();
@@ -30,23 +30,20 @@ export default function AdminProductos() {
     cargarProductos();
   }, []);
 
-  // -------------------------
-  // GUARDAR / EDITAR PRODUCTO
-  // -------------------------
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const payload = {
-      ...form,
-      precio: Number(form.precio),
-    };
+    const payload = { ...form, precio: Number(form.precio) };
 
     const url = editando ? `${API}/${editando}` : API;
     const method = editando ? "PUT" : "POST";
 
     const res = await fetch(url, {
       method,
-      headers: { "Content-Type": "application/json" },
+      headers: { 
+      "Content-Type": "application/json",
+      "Authorization": `Bearer ${token}`
+      },
       body: JSON.stringify(payload),
     });
 
@@ -69,43 +66,37 @@ export default function AdminProductos() {
     cargarProductos();
   };
 
-  // -------------------------
-  // EDITAR PRODUCTO
-  // -------------------------
   const cargarParaEditar = (p) => {
     setEditando(p._id);
     setForm({
-      ruta: p.ruta || "",
-      nombre: p.nombre || "",
-      descripcion: p.descripcion || "",
-      medidas: p.medidas || "",
-      materiales: p.materiales || "",
-      acabado: p.acabado || "",
-      precio: p.precio || "",
+      ruta: p.ruta,
+      nombre: p.nombre,
+      descripcion: p.descripcion,
+      medidas: p.medidas,
+      materiales: p.materiales,
+      acabado: p.acabado,
+      precio: p.precio,
     });
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
-  // -------------------------
-  // BORRAR PRODUCTO
-  // -------------------------
   const borrarProducto = async (id) => {
     if (!confirm("¿Seguro que querés eliminar este producto?")) return;
 
-    const res = await fetch(`${API}/${id}`, { method: "DELETE" });
+    const res = await fetch(`${API}/${id}`, { 
+      method: "DELETE",
+      headers: { "Authorization": `Bearer ${token}` }
+    });
 
-    if (res.ok) {
-      cargarProductos();
-    } else {
-      alert("Error al eliminar");
-    }
+
+    if (res.ok) cargarProductos();
+    else alert("Error al eliminar");
   };
 
   return (
     <div className="admin-productos-container">
       <h1>Administrar Productos</h1>
 
-      {/* FORMULARIO */}
       <form className="admin-form" onSubmit={handleSubmit}>
         <h2>{editando ? "Editar Producto" : "Crear Producto"}</h2>
 
@@ -187,7 +178,6 @@ export default function AdminProductos() {
         )}
       </form>
 
-      {/* LISTA DE PRODUCTOS */}
       <div className="admin-products-grid">
         {productos.map((p) => (
           <div key={p._id} className="admin-product-card">
@@ -200,7 +190,10 @@ export default function AdminProductos() {
                 ✏️ Editar
               </button>
 
-              <button className="btn-delete" onClick={() => borrarProducto(p._id)}>
+              <button
+                className="btn-delete"
+                onClick={() => borrarProducto(p._id)}
+              >
                 🗑️ Borrar
               </button>
             </div>

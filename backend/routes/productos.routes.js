@@ -1,6 +1,7 @@
 // src/routes/productos.routes.js
 import express from "express";
 import Producto from "../models/producto.js";
+import { authenticateToken } from "../middleware/authentication.js";
 import { isAdmin } from "../middleware/isadmin.js";
 
 const router = express.Router();
@@ -75,7 +76,7 @@ router.get("/:identificador", async (req, res) => {
 });
 
 // ---------- agregar un nuevo producto ----------
-router.post("/", isAdmin, async (req, res) => {
+router.post("/", authenticateToken, async (req, res) => {
   try {
     const body = { ...req.body };
     if (body.precio != null) body.precio = Number(body.precio);
@@ -98,77 +99,33 @@ router.post("/", isAdmin, async (req, res) => {
 });
 
 // ---------- actualizar un producto por _id o id ----------
-router.put("/:identificador", isAdmin, async (req, res) => {
+router.put("/:id", authenticateToken, async (req, res) => {
   try {
-    const { identificador } = req.params;
-    const body = { ...req.body };
-    if (body.precio != null) body.precio = Number(body.precio);
-
-    // primero resuelvo el documento real
-    const producto = await findProductoByAnyId(identificador);
-    if (!producto) {
-      return res.status(404).json({ error: "Producto no encontrado" });
-    }
-
-    const idMongo = producto.id.toString();
-
-    // Si viene nombre, chequear colisión case-insensitive con otros docs
-    if (body.nombre && String(body.nombre).trim()) {
-      const regex = new RegExp(
-        `^${escapeRegex(String(body.nombre).trim())}$`,
-        "i"
-      );
-      const conflict = await Producto.exists({
-        _id: { $ne: idMongo },
-        nombre: regex,
-      });
-      if (conflict) {
-        return res
-          .status(409)
-          .json({ error: "Ya existe un producto con ese nombre" });
-      }
-    }
-
-    const productoActualizado = await Producto.findByIdAndUpdate(
-      idMongo,
-      body,
-      {
-        new: true,
-        runValidators: true,
-      }
+    const actualizado = await Producto.findByIdAndUpdate(
+      req.params._id,
+      req.body,
+      { new: true }
     );
 
-    return res.json(productoActualizado);
-  } catch (error) {
-    if (error?.code === 11000) {
-      return res
-        .status(409)
-        .json({ error: "Ya existe un producto con ese nombre" });
-    }
-    console.error(error);
-    return res.status(400).json({
-      error: "Error al actualizar el producto",
-      details: error.message,
-    });
-  }
-});
-
-// ---------- eliminar un producto por _id o id ----------
-router.delete("/:identificador", isAdmin, async (req, res) => {
-  try {
-    const { identificador } = req.params;
-
-    const producto = await findProductoByAnyId(identificador);
-    if (!producto) {
+    if (!actualizado) {
       return res.status(404).json({ error: "Producto no encontrado" });
     }
 
-    await Producto.findByIdAndDelete(producto.id);
-
-    return res.json({ mensaje: "Producto eliminado correctamente" });
+    res.json(actualizado);
   } catch (error) {
-    console.error(error);
-    return res.status(400).json({ error: "Error al eliminar el producto" });
+    res.status(400).json({ error: "Error al actualizar" });
+  }
+});
+// ---------- eliminar un producto por _id o id ----------
+router.delete("/:id", authenticateToken, async (req, res) => {
+  try {
+    const eliminado = await Producto.findByIdAndDelete(req.params._id);
+    if (!eliminado) {
+      return res.status(404).json({ error: "Producto no encontrado" });
+    }
+    res.json({ mensaje: "Producto eliminado" });
+  } catch (error) {
+    res.status(400).json({ error: "Error al eliminar" });
   }
 });
 
