@@ -2,7 +2,7 @@
 import express from "express";
 import Pedido from "../models/pedido.js";
 import { authenticateToken } from "../middleware/authentication.js";
-import UserM from "../models/UserM.js";
+import { isAdmin } from "../middleware/authorization.js";
 
 const router = express.Router();
 
@@ -10,31 +10,23 @@ const router = express.Router();
 router.post("/", authenticateToken, async (req, res) => {
   try {
     const { productos, total } = req.body;
+    console.log("📦 Productos recibidos en el backend:");
+    console.log(JSON.stringify(productos, null, 2));
+    
+      // 🛠 Normalización
+      const productosNormalizados = productos.map((p) => ({
+        _id: p._id,
+        nombre: p.nombre || p.name,     // aceptar ambos
+        precio: p.precio || p.price,    // aceptar ambos
+        quantity: p.quantity
+      }));
 
-    // 🔍 Buscar datos del usuario
-    const usuario = await UserM.findById(req.user._id).select("username email");
-    console.log("🔥 Usuario encontrado:", usuario);
-    if (!usuario) {
-      return res.status(404).json({ message: "Usuario no encontrado" });
-    }
-
-    // Normalizar productos
-    const productosNormalizados = productos.map((p) => ({
-      _id: p._id,
-      nombre: p.nombre || p.name,
-      precio: p.precio || p.price,
-      quantity: p.quantity
-    }));
-
-    // Crear pedido con username y email
-    const nuevoPedido = new Pedido({
-      userId: req.user._id,
-      username: usuario.username,
-      email: usuario.email,
-      productos: productosNormalizados,
-      total,
-      estado: "Confirmado",
-    });
+      const nuevoPedido = new Pedido({
+        userId: req.user.id,
+        productos: productosNormalizados,
+        total,
+        estado: "Confirmado"
+      });
 
     const saved = await nuevoPedido.save();
     res.status(201).json(saved);
@@ -67,7 +59,7 @@ router.get("/mios", authenticateToken, async (req, res) => {
 });
 
 // Obtener todos los pedidos (ADMIN)
-router.get("/todos", authenticateToken, async (req, res) => {
+router.get("/todos", authenticateToken, isAdmin, async (req, res) => {
   try {
     const pedidos = await Pedido.find()
       .populate("userId", "username email")
